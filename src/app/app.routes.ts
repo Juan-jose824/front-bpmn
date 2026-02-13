@@ -5,8 +5,6 @@ import { AnalysisMain } from './features/analisis/pages/analisis-main/analisis-m
 export const routes: Routes = [
     { path: 'login', component: Login },
     {path: '', redirectTo: 'login', pathMatch: 'full'},
-    // {path: 'login', component: LoginComponent },
     {path: 'analisis', component: AnalysisMain },
-    // {path: 'registro-usuario', component: RegisterComponent },
-    // {path: '**', redirectTo: 'login' }, 
+
 ];

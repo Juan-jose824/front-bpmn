@@ -1,1 +1,58 @@
-<p>user-register works!</p>
+<div class="register-container">
+
+  <div class="card register-card">
+    <div class="card-header">
+      <h1>Registrar Nuevo Usuario</h1>
+      <p>Completa el formulario para crear un nuevo usuario en el sistema</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nombre de Usuario</label>
+          <input type="text" formControlName="username" placeholder="usuario123">
+        </div>
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" formControlName="email" placeholder="usuario@example.com">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" formControlName="password" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label>Confirmar Contraseña</label>
+          <input type="password" formControlName="confirmPassword" placeholder="••••••••">
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Rol de Usuario</label>
+        <select formControlName="role">
+          <option value="Usuario">Usuario</option>
+          <option value="Admin">Administrador</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="registerForm.invalid">
+        Registrar Usuario
+      </button>
+    </form>
+  </div>
+
+  <div class="card list-card">
+    <h2>Usuarios Registrados</h2>
+    <p class="subtitle">{{ registeredUsers.length }} usuario en el sistema</p>
+
+    <div class="user-item" *ngFor="let user of registeredUsers">
+      <div class="user-info">
+        <div class="name-row">
+          <strong>{{ user.name }}</strong>
+          <span class="badge-role">{{ user.role }}</span>
+        </div>
+        <span class="email-text">{{ user.email }}</span>
+      </div>
+      <div class="user-date">{{ user.date }}</div>
+    </div>
+  </div>
+</div>

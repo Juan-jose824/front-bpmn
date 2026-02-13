@@ -1,1 +1,16 @@
-<p>history works!</p>
+<div class="history-container">
+    <div class="history-card">
+        <div class="card-header">
+            <h1>Historial de Análisis</h1>
+            <p>Aqui verás todos los documentos que has analizado</p>
+        </div>
+
+        <div class="empty-state" *ngIf="documents.length === 0">
+            <div class="icon-container">📄</div>
+            <h2>No hay documentos en el historial</h2>
+            <p>Analiza tu primer documento desde la página de inicio</p>
+        </div>
+
+        <div class="documents-list" *ngIf="documents.length > 0"></div>
+    </div>
+</div>

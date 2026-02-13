@@ -31,7 +31,7 @@ export class Login {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           console.log('Bienvenido', res);
-          this.router.navigate(['/analysis']);
+          this.router.navigate(['/analisis']);
         },
         error: (err: any) => {
           alert('Error al iniciar sesión: ' + (err.error?.error || 'Error desconocido'));

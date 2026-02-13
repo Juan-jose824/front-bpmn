@@ -1,1 +1,52 @@
-<p>analysis-main works!</p>
+<header class="top-header">
+    <div class="left-selection">
+        <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+        <span class="brand">Diagramas BPMN</span>
+    </div>
+    <div class="right-section">
+        <span class="user-name">{{ userName }}</span>
+        <div class="user-avatar">👤</div>
+    </div>
+</header>
+
+<div class="sidebar-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
+<aside class="sidebar" [class.open]="isMenuOpen">
+    <div class="sidebar-tittle">Menú</div>
+    <nav>
+        <a class="nav-item active"> Inicio</a>
+        <a class="nav-item"> Historial</a>
+        <a class="nav-item"> Registrar Usuario</a>
+        <div class="divider"></div>
+        <a class="nav-item logout" (click)="logout()"> Cerrar Sesión</a>
+    </nav>
+</aside>
+
+<div class="dashboard-container">
+
+    <section class="analisis-card">
+        <h1>Analizar Documento</h1>
+        <p class="subtitle">Sube un archivo PDF con la documentación de tu proyecto para generar un diagrama BPMN</p>
+        
+        <div class="upload-zone" (click)="fileInput.click()">
+            <div class="upload-icon"></div>
+            <p>{{ selectedFile ? selectedFile.name : 'Has clic para seleccionar un archivo PDF' }}</p>
+            <span class="format">Formato soportado: PDF</span>
+            <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept=".pdf">
+        </div>
+
+        <button class="btn-primary-black" *ngIf="selectedFile">
+           📄 Analizar Documento
+        </button>
+    </section>
+
+    <section class="hitory-card">
+        <h2>Historial Reciente</h2>
+        <p class="subtitle">Documentos analizados recientemente</p>
+
+        <div class="empty-history" *ngIf="history.length === 0">
+            No hay consultas recientes.
+        </div>
+
+        <div class="history-list" *ngIf="history.length > 0"></div>
+    </section>
+</div>

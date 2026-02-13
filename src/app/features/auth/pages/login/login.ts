@@ -30,6 +30,7 @@ export class Login {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
+          localStorage.setItem('usuario', JSON.stringify(res));
           console.log('Bienvenido', res);
           this.router.navigate(['/analisis']);
         },

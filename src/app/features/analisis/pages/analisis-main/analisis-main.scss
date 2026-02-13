@@ -1,0 +1,222 @@
+/* Estructura del Header */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #f1f0f5;
+  border-bottom: 1px solid #e0e0e0;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .left-selection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+  }
+
+  .brand {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .user-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .user-avatar {
+      font-size: 1.5rem;
+      background: #ddd;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+/* Contenedor Principal */
+.dashboard-container {
+  padding: 30px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px);
+}
+
+/* Tarjetas (Cards) */
+.analisis-card, .hitory-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  h1, h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: #222;
+  }
+
+  .subtitle {
+    color: #888;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Zona de Carga de Archivos */
+.upload-zone {
+  border: 2px dashed #bbb;
+  border-radius: 15px;
+  padding: 50px 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  background: #fafafa;
+
+  &:hover {
+    background: #f3f3f3;
+    border-color: #000;
+  }
+
+  p {
+    margin: 10px 0;
+    font-weight: 500;
+    color: #444;
+  }
+
+  .format {
+    font-size: 0.8rem;
+    color: #aaa;
+    display: block;
+  }
+}
+
+/* Botón Negro Principal */
+.btn-primary-black {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.1s active;
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+/* Menú Lateral (Sidebar) */
+.sidebar {
+  position: fixed;
+  left: -280px; /* Escondido por defecto */
+  top: 0;
+  width: 260px;
+  height: 100%;
+  background: #e0e0e0;
+  z-index: 1100; /* Por encima de todo */
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+
+  &.open {
+    left: 0; /* Se desliza hacia adentro */
+  }
+
+  .sidebar-tittle {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    padding-left: 10px;
+    color: #333;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      color: #333;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &.active {
+        background: #000;
+        color: #fff !important;
+      }
+
+      &:hover:not(.active) {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      &.logout {
+        color: #d32f2f;
+        margin-top: 10px;
+        &:hover { background: rgba(211, 47, 47, 0.1); }
+      }
+    }
+
+    .divider {
+      height: 1px;
+      background: #ccc;
+      margin: 15px 0;
+    }
+  }
+}
+
+/* Fondo Oscuro al abrir menú */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1050;
+  backdrop-filter: blur(2px); /* Efecto de desenfoque opcional */
+}
+
+/* Historial vacío */
+.empty-history {
+  padding: 20px;
+  text-align: center;
+  color: #aaa;
+  font-style: italic;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}

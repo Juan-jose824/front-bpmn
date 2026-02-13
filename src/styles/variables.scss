@@ -1,0 +1,55 @@
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #f1f0f5;
+  border-bottom: 1px solid #e0e0e0;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .left-selection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+    }
+  }
+
+  .brand {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .user-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #555;
+    }
+
+    .user-avatar {
+      font-size: 1.5rem;
+      background: #ddd;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

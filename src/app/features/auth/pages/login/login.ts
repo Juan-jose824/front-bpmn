@@ -22,7 +22,7 @@ export class Login {
     // se describen los campos y validadores
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      pass: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
   
@@ -31,7 +31,7 @@ export class Login {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           console.log('Bienvenido', res);
-          this.router.navigate(['/analisis']);
+          this.router.navigate(['/analysis']);
         },
         error: (err: any) => {
           alert('Error al iniciar sesión: ' + (err.error?.error || 'Error desconocido'));

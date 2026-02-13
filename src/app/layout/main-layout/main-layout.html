@@ -1,0 +1,28 @@
+<header class="top-header">
+    <div class="left-selection">
+        <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+        <span class="brand">Diagramas BPMN</span>
+    </div>
+
+    <div class="right-section">
+        <span class="user-name">{{ userName }}</span>
+        <div class="user-avatar">👤</div>
+    </div>
+</header>
+
+<div class="sidebar-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
+
+<aside class="sidebar" [class.open]="isMenuOpen">
+    <div class="sidebar-tittle">Menú</div>
+    <nav>
+        <a class="nav-item" routerLink="/analisis">Inicio</a>
+        <a class="nav-item" routerLink="/history">Historial</a>
+        <a class="nav-item" routerLink="/user-register">Registrar Usuarios</a>
+        <div class="divider"></div>
+        <a class="nav-item logout" (click)="logout()">Cerrar Sesion</a>
+    </nav>
+</aside>
+
+<div class="layout-content">
+    <router-outlet></router-outlet>
+</div>

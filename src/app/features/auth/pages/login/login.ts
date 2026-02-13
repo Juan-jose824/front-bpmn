@@ -14,6 +14,12 @@ import { Router } from '@angular/router';
 export class Login {
   loginForm: FormGroup;
 
+  hide = true;
+
+  togglePassword() {
+    this.hide = !this.hide;
+  }
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

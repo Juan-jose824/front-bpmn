@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 * {
   box-sizing: border-box;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 html, body {
@@ -9,9 +10,152 @@ html, body {
   padding: 0;
   overflow: hidden;   // 🔥 elimina scroll real
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 app-root {
   display: block;
   height: 100%;
+}
+
+:root {
+  --bg-main: #ffffff;
+  --bg-header: #f1f0f5;
+  --bg-sidebar: #e0e0e0;
+  --bg-modal: #ffffff;
+  --bg-dashboard: #f8f9fa;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --bg-history: #f8f9fa;
+  --history-card-bg: #ffffff;
+  --history-border: #f0f0f0;
+  --history-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  --bg-register: #f8f9fa;
+  --scrollbar-thumb-hover: #999;
+
+  --text-primary: #222;
+  --text-secondary: #555;
+  --text-title: #222;
+  --text-subtitle: #888;
+  --text-body: #444;
+  --text-muted-light: #aaa;
+  --history-title: #222;
+  --history-subtitle: #888;
+  --title-color: #222;
+  --subtitle-color: #888;
+  --label-color: #444;
+
+  --input-bg: #f4f4f7;
+  --input-border: #eee;
+  --input-focus-border: #000b1d;
+  --input-focus-bg: #ffffff;
+  --input-focus-shadow: rgba(0, 11, 29, 0.1);
+
+  --primary-color: #000b1d;
+  --disabled-bg: #ccc;
+
+  --cancel-text: #666;
+  --cancel-border: #ddd;
+  --cancel-hover-bg: #f9f9f9;
+
+  --table-border: #f0f0f0;
+  --table-header-bg: #fafafa;
+  --table-header-text: #444;
+  --table-td-text: #555;
+
+  --badge-bg: #e8e8ff;
+  --badge-text: #6c63ff;
+
+  --icon-hover-bg: #f0f0f0;
+  --delete-hover-text: #ff4d4f;
+  --delete-hover-bg: #fff1f0;
+
+  --empty-icon: #ccc;
+  --empty-title: #444;
+  --empty-text: #999;
+
+  --upload-border: #bbb;
+  --upload-bg: #fafafa;
+  --upload-hover-bg: #f3f3f3;
+
+  --primary-black: #000;
+  --border-light: #eee;
+  --scrollbar-thumb: #ccc;
+
+  --accent: #2563eb;
+  --border-color: #e0e0e0;
+}
+
+.dark-theme {
+  --bg-main: #121212;
+  --bg-header: #1e1e1e;
+  --bg-sidebar: #1a1a1a;
+  --bg-modal: #1f1f1f;
+  --bg-dashboard: #121212;
+  --card-bg: #1e1e1e;
+  --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  --bg-history: #121212;
+  --history-card-bg: #1e1e1e;
+  --history-border: #2c2c2c;
+  --history-shadow: 0 8px 25px rgba(0,0,0,0.4);
+
+  --text-primary: #f5f5f5;
+  --text-secondary: #aaa;
+  --text-title: #f5f5f5;
+  --text-subtitle: #aaa;
+  --text-body: #ccc;
+  --text-muted-light: #777;
+  --history-title: #f5f5f5;
+  --history-subtitle: #aaa;
+
+  --empty-icon: #555;
+  --empty-title: #ddd;
+  --empty-text: #888;
+
+  --upload-border: #444;
+  --upload-bg: #1a1a1a;
+  --upload-hover-bg: #242424;
+
+  --primary-black: #ffffff;
+  --border-light: #2c2c2c;
+  --scrollbar-thumb: #444;
+
+  --accent: #3b82f6;
+  --border-color: #333;
+
+  --bg-register: #121212;
+  --scrollbar-thumb: #444;
+  --scrollbar-thumb-hover: #666;
+
+  --card-bg: #1e1e1e;
+  --card-shadow: 0 8px 25px rgba(0,0,0,0.4);
+
+  --title-color: #f5f5f5;
+  --subtitle-color: #aaa;
+  --label-color: #ccc;
+
+  --input-bg: #1a1a1a;
+  --input-border: #333;
+  --input-focus-border: #3b82f6;
+  --input-focus-bg: #222;
+  --input-focus-shadow: rgba(59, 130, 246, 0.3);
+
+  --primary-color: #ffffff;
+  --disabled-bg: #444;
+
+  --cancel-text: #aaa;
+  --cancel-border: #333;
+  --cancel-hover-bg: #222;
+
+  --table-border: #2c2c2c;
+  --table-header-bg: #1a1a1a;
+  --table-header-text: #ddd;
+  --table-td-text: #bbb;
+
+  --badge-bg: #2a2a4f;
+  --badge-text: #8b85ff;
+
+  --icon-hover-bg: #2a2a2a;
+  --delete-hover-text: #ff6b6b;
+  --delete-hover-bg: #331f1f;
 }

@@ -7,11 +7,14 @@
     <div class="right-section">
         <span class="user-name">{{ userName }}</span>
         <div class="user-avatar" (click)="toggleProfile()">
-            <img *ngIf="profileImage" [src]="profileImage" />
+            <img *ngIf="profileImage && refreshKey >= 0" [src]="profileImage" />
             <span *ngIf="!profileImage">
                 {{ userName ? userName.charAt(0).toUpperCase() : 'U' }}
             </span>
         </div>
+        <button class="theme-toggle" (click)="toggleTheme()">
+            {{ isDarkMode ? '☀️' : '🌙' }}
+        </button>
     </div>
 </header>
 
@@ -43,7 +46,7 @@
     <p class="subtitle">Gestiona tu información personal</p>
 
     <div class="avatar-large">
-        <img *ngIf="profileImage" [src]="profileImage" />
+        <img *ngIf="profileImage && refreshKey >= 0" [src]="profileImage" />
         <span *ngIf="!profileImage">
             {{ userName ? userName.charAt(0).toUpperCase() : 'U' }}
         </span>

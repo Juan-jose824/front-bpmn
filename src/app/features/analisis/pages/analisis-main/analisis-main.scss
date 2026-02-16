@@ -1,7 +1,7 @@
 /* Contenedor Principal */
 .dashboard-container {
   padding: 30px;
-  background-color: #f8f9fa;
+  background-color: var(--bg-dashboard);
   height: calc(100vh - 60px);
   overflow-y: auto;
   min-height: calc(100vh - 60px);
@@ -9,27 +9,27 @@
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: var(--scrollbar-thumb);
     border-radius: 10px;
   }
 }
 
 /* Tarjetas (Cards) */
 .analisis-card, .hitory-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 25px;
   margin-bottom: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
 
   h1, h2 {
     font-size: 1.5rem;
     margin-bottom: 8px;
-    color: #222;
+    color: var(--text-title);
   }
 
   .subtitle {
-    color: #888;
+    color: var(--text-subtitle);
     margin-bottom: 20px;
     font-size: 0.95rem;
   }
@@ -37,29 +37,29 @@
 
 /* Zona de Carga de Archivos */
 .upload-zone {
-  border: 2px dashed #bbb;
+  border: 2px dashed var(--upload-border);
   border-radius: 15px;
   padding: 50px 20px;
   text-align: center;
   cursor: pointer;
   margin-bottom: 20px;
   transition: all 0.3s ease;
-  background: #fafafa;
+  background: var(--upload-bg);
 
   &:hover {
-    background: #f3f3f3;
-    border-color: #000;
+    background: var(--upload-hover-bg);
+    border-color: var(--primary-black);
   }
 
   p {
     margin: 10px 0;
     font-weight: 500;
-    color: #444;
+    color: var(--text-body);
   }
 
   .format {
     font-size: 0.8rem;
-    color: #aaa;
+    color: var(--text-muted-light);
     display: block;
   }
 }
@@ -67,8 +67,8 @@
 /* Botón Negro Principal */
 .btn-primary-black {
   width: 100%;
-  background: #000;
-  color: #fff;
+  background: var(--primary-black);
+  color: var(--bg-dashboard);
   border: none;
   padding: 16px;
   border-radius: 12px;
@@ -90,8 +90,8 @@
 .empty-history {
   padding: 20px;
   text-align: center;
-  color: #aaa;
+  color: var(--text-muted-light);
   font-style: italic;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-light);
   border-radius: 10px;
 }

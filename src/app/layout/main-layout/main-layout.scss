@@ -43,14 +43,22 @@
     }
 
     .user-avatar {
-      font-size: 1.5rem;
-      background: #ddd;
-      border-radius: 50%;
       width: 35px;
       height: 35px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #ddd;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 600;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
 }
@@ -133,6 +141,112 @@
 }
 
 .layout-content {
-    margin-top: 60px;
-    padding: 30px;
+    padding: 20px 30px;
+}
+
+/*Overlay oscuro*/
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1200;
+}
+
+/*Modal*/
+.profile-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 25px;
+  z-index: 1300;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    button {
+      border: none;
+      background: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 20px;
+  }
+
+  .avatar-large {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #e5e5e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    font-weight: 600;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    label {
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    p {
+      font-weight: 500;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      width: fit-content;
+    }
+  }
+}
+
+.upload-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  transition: 0.2s;
+
+  &:hover {
+    background: #1d4ed8;
+  }
 }

@@ -14,6 +14,9 @@ export class MainLayout implements OnInit {
   userName: string = '';
   userRole: string = '';
   isMenuOpen = false;
+  isProfileOpen = false;
+
+  profileImage: string |null = null;
 
   // Inyectamos el router en el constructor
   constructor(private router: Router) {}
@@ -24,6 +27,7 @@ export class MainLayout implements OnInit {
       const user = JSON.parse(data);
       this.userName = user.name || user.user_name;
       this.userRole = user.rol;
+      this.profileImage = user.profileImage || null;
     } else {
       this.router.navigate(['/login']);
     }
@@ -39,8 +43,33 @@ export class MainLayout implements OnInit {
     this.isMenuOpen = false;
   }
 
+  toggleProfile() {
+    this.isProfileOpen = !this.isProfileOpen;
+  }
+
   logout() {
     localStorage.removeItem('usuario');
     this.router.navigate(['/login']);
+  }
+
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      this.profileImage = reader.result as string;
+
+      //Guardar en localStorage
+      const data = localStorage.getItem('usuario');
+      if (data) {
+        const user = JSON.parse(data);
+        user.profileImage = this.profileImage;
+        localStorage.setItem('usuario',JSON.stringify(user));
+      }
+    };
+
+    reader.readAsDataURL(file);
   }
 }

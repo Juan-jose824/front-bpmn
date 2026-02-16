@@ -6,7 +6,12 @@
 
     <div class="right-section">
         <span class="user-name">{{ userName }}</span>
-        <div class="user-avatar">👤</div>
+        <div class="user-avatar" (click)="toggleProfile()">
+            <img *ngIf="profileImage" [src]="profileImage" />
+            <span *ngIf="!profileImage">
+                {{ userName ? userName.charAt(0).toUpperCase() : 'U' }}
+            </span>
+        </div>
     </div>
 </header>
 
@@ -25,4 +30,35 @@
 
 <div class="layout-content">
     <router-outlet></router-outlet>
+</div>
+
+<div class="profile-overlay" *ngIf="isProfileOpen" (click)="toggleProfile()"></div>
+
+<div class="profile-modal" *ngIf="isProfileOpen">
+    <div class="modal-header">
+        <h2>Perfil de Usuario</h2>
+        <button (click)="toggleProfile()">✕</button>
+    </div>
+
+    <p class="subtitle">Gestiona tu información personal</p>
+
+    <div class="avatar-large">
+        <img *ngIf="profileImage" [src]="profileImage" />
+        <span *ngIf="!profileImage">
+            {{ userName ? userName.charAt(0).toUpperCase() : 'U' }}
+        </span>
+    </div>
+
+    <label class="upload-btn">
+        📷 Cambiar imagen
+        <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden />
+    </label>
+
+    <div class="profile-info">
+        <label>Nombre de usuario</label>
+        <p>{{ userName }}</p>
+
+        <label>Rol</label>
+        <span class="role-badge">{{ userRole }}</span>
+    </div>
 </div>

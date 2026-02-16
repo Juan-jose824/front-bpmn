@@ -5,6 +5,8 @@ $input-border: #d9d9d9;
 $text-dark: #333;
 $text-muted: #777;
 
+@use 'sass:color';
+
 :host {
     display: flex;
     justify-content: center;
@@ -107,7 +109,7 @@ $text-muted: #777;
     transition: 0.2s ease;
 
     &:hover {
-        background-color: darken($primary-orange, 8%);
+        background-color: color.adjust($primary-orange, $lightness: -8%);
     }
 
     &:disabled {

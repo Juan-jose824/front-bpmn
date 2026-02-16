@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrl: './login.scss',
 })
 export class Login {
+
+  //variable para manejar el form del inicio de sesión
   loginForm: FormGroup;
 
   hide = true;
@@ -21,6 +23,8 @@ export class Login {
   }
 
   constructor(
+
+    //Se inyectan los servicios para manejar el formulario, autenticación y navegación
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
@@ -32,6 +36,8 @@ export class Login {
     });
   }
   
+
+  //Función para el manejo de inicio de sesión
   onLogin() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({

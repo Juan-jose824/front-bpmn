@@ -1,9 +1,8 @@
 <div class="register-container">
-
   <div class="card register-card">
     <div class="card-header">
-      <h1>Registrar Nuevo Usuario</h1>
-      <p>Completa el formulario para crear un nuevo usuario en el sistema</p>
+      <h1>{{ isEditing ? 'Editar Usuario' : 'Registrar Nuevo Usuario' }}</h1>
+      <p>{{ isEditing ? 'Modifica los datos del usuario seleccionado' : 'Completa el formulario para crear un nuevo usuario' }}</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
@@ -16,14 +15,17 @@
           <label>Correo Electrónico</label>
           <input type="email" formControlName="email" placeholder="usuario@example.com">
         </div>
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input type="password" formControlName="password" placeholder="••••••••">
-        </div>
-        <div class="form-group">
-          <label>Confirmar Contraseña</label>
-          <input type="password" formControlName="confirmPassword" placeholder="••••••••">
-        </div>
+        
+        <ng-container *ngIf="!isEditing">
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" formControlName="password" placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label>Confirmar Contraseña</label>
+            <input type="password" formControlName="confirmPassword" placeholder="••••••••">
+          </div>
+        </ng-container>
       </div>
 
       <div class="form-group full-width">
@@ -35,24 +37,41 @@
       </div>
 
       <button type="submit" class="btn-submit" [disabled]="registerForm.invalid">
-        Registrar Usuario
+        {{ isEditing ? 'Actualizar Cambios' : 'Registrar Usuario' }}
+      </button>
+      
+      <button type="button" class="btn-cancel" *ngIf="isEditing" (click)="cancelarEdicion()">
+        Cancelar Edición
       </button>
     </form>
   </div>
 
   <div class="card list-card">
     <h2>Usuarios Registrados</h2>
-    <p class="subtitle">{{ registeredUsers.length }} usuario en el sistema</p>
+    <p class="subtitle">{{ registeredUsers.length }} usuarios en el sistema</p>
 
-    <div class="user-item" *ngFor="let user of registeredUsers">
-      <div class="user-info">
-        <div class="name-row">
-          <strong>{{ user.name }}</strong>
-          <span class="badge-role">{{ user.role }}</span>
-        </div>
-        <span class="email-text">{{ user.email }}</span>
-      </div>
-      <div class="user-date">{{ user.date }}</div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Correo Electrónico</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of registeredUsers">
+            <td>{{ user.user_name }}</td>
+            <td>{{ user.email }}</td>
+            <td><span class="badge-role">{{ user.rol }}</span></td>
+            <td class="actions">
+              <button class="btn-icon edit" (click)="editarUsuario(user)" title="Editar">✏️</button>
+              <button class="btn-icon delete" (click)="eliminarUsuario(user.user_name)" title="Eliminar">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -1,11 +1,29 @@
 .register-container {
   padding: 40px;
   background-color: #f8f9fa;
-  min-height: 100vh;
+  /* Ajuste para que el scroll termine justo al borde de la pantalla */
+  height: calc(100vh - 60px); 
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+
+  /* Estilización de la barra de scroll */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+    &:hover { background: #999; }
+  }
 }
 
 .btn-back {
@@ -15,7 +33,11 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 10px;
-  &:hover { text-decoration: underline; }
+  transition: color 0.2s;
+  &:hover { 
+    text-decoration: underline; 
+    color: #000b1d;
+  }
 }
 
 .card {
@@ -25,9 +47,15 @@
   border-radius: 15px;
   padding: 30px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  box-sizing: border-box;
 
-  h1, h2 { font-size: 1.3rem; margin-bottom: 5px; }
-  p { color: #888; font-size: 0.9rem; margin-bottom: 25px; }
+  h1, h2 { font-size: 1.3rem; margin-bottom: 5px; color: #222; }
+  .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 25px; }
+}
+
+/* Margen extra para ver el borde inferior de la última tarjeta */
+.list-card {
+  margin-bottom: 60px; 
 }
 
 .form-grid {
@@ -41,13 +69,22 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  label { font-weight: 600; font-size: 0.9rem; }
+  
+  label { font-weight: 600; font-size: 0.9rem; color: #444; }
+  
   input, select {
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #eee;
     background: #f4f4f7;
-    &:focus { outline: 2px solid #000; }
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    &:focus { 
+      outline: none;
+      border-color: #000b1d;
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba(0, 11, 29, 0.1);
+    }
   }
 }
 
@@ -61,20 +98,93 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 20px;
+  transition: opacity 0.2s;
+  &:hover:not(:disabled) { opacity: 0.9; }
   &:disabled { background: #ccc; cursor: not-allowed; }
 }
 
-.user-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  border: 1px solid #f0f0f0;
+.btn-cancel {
+  width: 100%;
+  background: transparent;
+  color: #666;
+  padding: 10px;
+  border: 1px solid #ddd;
   border-radius: 10px;
   margin-top: 10px;
+  cursor: pointer;
+  &:hover { background: #f9f9f9; }
+}
 
-  .name-row { display: flex; gap: 10px; align-items: center; }
-  .badge-role { background: #e8e8ff; color: #6c63ff; padding: 2px 8px; border-radius: 5px; font-size: 0.75rem; }
-  .email-text { font-size: 0.85rem; color: #777; }
-  .user-date { color: #999; font-size: 0.85rem; }
+/* --- ESTILOS DE LA TABLA --- */
+.table-container {
+  overflow-x: auto;
+  margin-top: 10px;
+  border-radius: 8px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    th {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #444;
+      background: #fafafa;
+      /* Mantiene el encabezado visible al hacer scroll si limitas el contenedor */
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    td {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    /* Quita la línea final para que no choque con el borde de la card */
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge-role {
+      background: #e8e8ff;
+      color: #6c63ff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+
+      .btn-icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 5px;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #f0f0f0;
+          transform: scale(1.1);
+        }
+
+        &.delete:hover {
+          color: #ff4d4f;
+          background-color: #fff1f0;
+        }
+      }
+    }
+  }
 }

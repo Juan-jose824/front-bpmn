@@ -17,7 +17,7 @@
     <nav>
         <a class="nav-item" routerLink="/analisis">Inicio</a>
         <a class="nav-item" routerLink="/history">Historial</a>
-        <a class="nav-item" routerLink="/user-register">Registrar Usuarios</a>
+        <a class="nav-item" *ngIf="userRole === 'Admin'" (click)="toggleRegister()">Registrar Usuarios</a>
         <div class="divider"></div>
         <a class="nav-item logout" (click)="logout()">Cerrar Sesion</a>
     </nav>

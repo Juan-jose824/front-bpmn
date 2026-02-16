@@ -24,7 +24,6 @@ export const routes: Routes = [
   // REDIRECCIÓN FINAL
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  // OPCIONAL (muy recomendable)
   { path: '**', redirectTo: 'login' }
 
 ];

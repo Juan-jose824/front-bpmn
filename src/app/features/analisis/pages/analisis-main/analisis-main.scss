@@ -2,7 +2,16 @@
 .dashboard-container {
   padding: 30px;
   background-color: #f8f9fa;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
   min-height: calc(100vh - 60px);
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
 }
 
 /* Tarjetas (Cards) */

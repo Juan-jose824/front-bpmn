@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-analisis-main',
   standalone: true,
@@ -10,11 +11,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './analisis-main.scss',
 })
 export class AnalysisMain implements OnInit {
+
+  //Variables para manejar la sesión, menú, archivo a analizar y el historia
   userName: string = '';
   isMenuOpen: boolean = false;
   selectedFile: File | null = null;
   history: any[] =[];
 
+  //Verificar autenticación al cargar la página
   ngOnInit() {
     const data= localStorage.getItem('usuario');
     if (data) {
@@ -25,10 +29,12 @@ export class AnalysisMain implements OnInit {
     }
   }
 
+  // Abrir el menú lateral
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  //Seleccionar archivo PDF del dispositivo
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file && file.type === 'application/pdf') {
@@ -41,6 +47,7 @@ export class AnalysisMain implements OnInit {
     console.log('Iniciando análisis de:', this.selectedFile?.name);
   }
 
+  // Cerrar sesión
   logout() {
     localStorage.removeItem('usuario');
     window.location.href = '/login';

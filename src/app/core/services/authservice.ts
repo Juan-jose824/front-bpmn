@@ -31,4 +31,9 @@ export class AuthService {
   updateUser(username: string, data: any): Observable<any> {
   return this.http.put(`${this.apiUrl}/users/${username}`, data);
 }
+ 
+// Método para actualizar la imagen de perfil
+updateProfileImage(username: string, imageBase64: string) {
+  return this.http.put(`http://localhost:3000/api/users/profile-image/${username}`, { imageBase64 });
+}
 }

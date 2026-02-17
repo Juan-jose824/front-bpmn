@@ -3,6 +3,8 @@ import { RouterLink, RouterOutlet, RouterModule, Router } from "@angular/router"
 import { CommonModule } from '@angular/common'
 import { HostListener } from '@angular/core';
 import { NgZone } from '@angular/core';
+import { AuthService } from '../../core/services/authservice';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-main-layout',
@@ -12,115 +14,161 @@ import { NgZone } from '@angular/core';
   styleUrl: './main-layout.scss'
 })
 export class MainLayout implements OnInit {
-  //Variables para manejar el nombre de usuario, rol y estado del menpu
   userName: string = '';
   userRole: string = '';
   isMenuOpen = false;
   isProfileOpen = false;
   refreshKey = 0;
   isDarkMode = false;
+  profileImage: string | null = null;
+  showToast = false;
 
-  profileImage: string |null = null;
+  // URL del servidor para cargar archivos
+  private readonly serverUrl = 'http://localhost:3000/uploads/';
 
-  // Inyectamos el router en el constructor
-  constructor(private router: Router, private zone:NgZone) {}
+  // Inyectar servicios necesarios
+  constructor(
+    private router: Router,
+    private zone: NgZone,
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
+  // Verificar autenticación y cargar preferencias al iniciar
   ngOnInit() {
     const data = localStorage.getItem('usuario');
-    const saveTheme = localStorage.getItem('theme');
 
     if (data) {
       const user = JSON.parse(data);
       this.userName = user.name || user.user_name;
       this.userRole = user.rol;
-      this.profileImage = user.profileImage || null;
+      
+      this.setProfileImage(user.profile_image);
+
+      const userThemeKey = `theme_${this.userName}`;
+      const savedTheme = localStorage.getItem(userThemeKey);
+
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        this.isDarkMode = true;
+      } else {
+        document.body.classList.remove('dark-theme');
+        this.isDarkMode = false;
+      }
     } else {
       this.router.navigate(['/login']);
     }
+  }
 
-    if (saveTheme === 'dark') {
+  // Método para construir la URL final
+  private setProfileImage(imagePath: string | null) {
+    if (!imagePath) {
+      this.profileImage = null;
+      return;
+    }
+    // Si ya es una URL completa o Base64, se deja. Si es nombre, se concatena el servidor.
+    this.profileImage = imagePath.includes('://') || imagePath.startsWith('data:') 
+      ? imagePath 
+      : this.serverUrl + imagePath;
+  }
+
+  // Método para cambiar entre modo claro/oscuro
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    const userThemeKey = `theme_${this.userName}`;
+
+    if (this.isDarkMode) {
       document.body.classList.add('dark-theme');
-      this.isDarkMode = true;
+      localStorage.setItem(userThemeKey, 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem(userThemeKey, 'light');
     }
   }
 
+  // Método para cerrar sesión
+  logout() {
+    document.body.classList.remove('dark-theme');
+    localStorage.removeItem('usuario');
+    this.router.navigate(['/login']);
+  }
+
+  // Método para abrir/cerrar el menú lateral
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  // navegar a la página de registro
+  // Método para navegar a la página de registro de usuarios (solo si es admin)
   toggleRegister() {
     this.router.navigate(['/user-register']);
     this.isMenuOpen = false;
   }
 
+  // Método para abrir/cerrar el perfil
   toggleProfile() {
     this.isProfileOpen = !this.isProfileOpen;
   }
 
-  logout() {
-    localStorage.removeItem('usuario');
-    this.router.navigate(['/login']);
+  // Método para manejar la selección de imagen de perfil
+  onImageSelected(event: any) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    alert('Solo se permiten imágenes.');
+    return;
   }
 
-  onImageSelected(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
+  const maxSize = 5 * 1024 * 1024;
+  if (file.size > maxSize) {
+    alert('La imagen no debe superar los 5MB');
+    return;
+  }
 
-    //Validar tipo
-    if (!file.type.startsWith('image/')) {
-      alert('Solo se permiten imágenes.');
-      return;
-    }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const imageBase64 = reader.result as string;
 
-    //Validar tamaño (2MB)
-    const maxSize = 2 * 1024 * 1024;
-    if (file.size > maxSize) {
-      alert('La imagen no debe superar los 2MB');
-      return;
-    }
+    this.authService.updateProfileImage(this.userName, imageBase64).subscribe({
+      next: (res: any) => {
+        this.zone.run(() => {
+          this.setProfileImage(res.fileName); 
+          this.refreshKey++;
+          
+          this.triggerNotification();
 
-    const reader = new FileReader();
+          const data = localStorage.getItem('usuario');
+          if (data) {
+            const user = JSON.parse(data);
+            user.profile_image = res.fileName; 
+            localStorage.setItem('usuario', JSON.stringify(user));
+          }
 
-    reader.onload = () => {
-      const imageBase64 = reader.result as string;
+          this.cdr.detectChanges(); 
+        });
+      },
+      error: (err) => {
+        console.error('Error al guardar en el servidor:', err);
+        alert('Hubo un error al guardar la imagen en el servidor.');
+      }
+    });
 
-      this.profileImage = null;
+    event.target.value = '';
+  };
+  reader.readAsDataURL(file);
+}
 
-      setTimeout(() => {
-        this.profileImage = imageBase64;
-        this.refreshKey++;
-        //Guardar en localStorage
-        const data = localStorage.getItem('usuario');
-        if (data) {
-          const user = JSON.parse(data);
-          user.profileImage = imageBase64;
-          localStorage.setItem('usuario',JSON.stringify(user));
-        }
-      });
-      
-      event.target.value = '';
-    };
-
-    reader.readAsDataURL(file);
+  // Método para mostrar la notificación temporal
+  triggerNotification() {
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 300);
   }
 
   @HostListener('document:keydown.escape')
   handleEscape() {
-    if (this.isProfileOpen) {
-      this.isProfileOpen = false;
-    }
-  }
-
-  toggleTheme() {
-    this.isDarkMode = !this.isDarkMode;
-
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-theme');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.remove('dark-theme');
-      localStorage.setItem('theme', 'light');
-    }
+    this.isProfileOpen = false;
+    this.isMenuOpen = false;
   }
 }

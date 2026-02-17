@@ -1,63 +1,42 @@
 .register-container {
   padding: 40px;
-  background-color: #f8f9fa;
-  /* Ajuste para que el scroll termine justo al borde de la pantalla */
-  height: calc(100vh - 60px); 
+  background-color: transparent; 
+  height: calc(100vh - 60px); /* Mantiene la altura fija para el scroll */
   width: 100%;
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow-y: auto; /* Reintegrado el scroll */
   
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 30px;
+  transition: all 0.3s ease;
 
-  /* Estilización de la barra de scroll */
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  /* Estilo del Scrollbar */
+  &::-webkit-scrollbar { width: 8px; }
+  &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb {
-    background: #ccc;
+    background: var(--text-muted);
     border-radius: 10px;
-    &:hover { background: #999; }
-  }
-}
-
-.btn-back {
-  align-self: flex-start;
-  background: none;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 10px;
-  transition: color 0.2s;
-  &:hover { 
-    text-decoration: underline; 
-    color: #000b1d;
+    &:hover { background: var(--text-secondary); }
   }
 }
 
 .card {
-  background: white;
+  background: var(--card-bg);
   width: 100%;
   max-width: 900px;
   border-radius: 15px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 35px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   box-sizing: border-box;
+  border: 1px solid var(--border-color);
 
-  h1, h2 { font-size: 1.3rem; margin-bottom: 5px; color: #222; }
-  .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 25px; }
+  h1, h2 { font-size: 1.4rem; margin-bottom: 5px; color: var(--text-primary); }
+  .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; display: block; }
 }
 
-/* Margen extra para ver el borde inferior de la última tarjeta */
-.list-card {
-  margin-bottom: 60px; 
-}
-
+/* Formulario en 2 columnas */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -69,53 +48,59 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  
-  label { font-weight: 600; font-size: 0.9rem; color: #444; }
+
+  &.full-width {
+    grid-column: span 2;
+    margin-top: 10px;
+  }
+
+  label { font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
   
   input, select {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    background: #f4f4f7;
-    font-size: 0.9rem;
-    transition: all 0.2s;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--hover-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+
     &:focus { 
       outline: none;
-      border-color: #000b1d;
-      background: #fff;
-      box-shadow: 0 0 0 2px rgba(0, 11, 29, 0.1);
+      border-color: var(--badge-text);
+      background: var(--card-bg);
+      box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.1);
     }
   }
 }
 
 .btn-submit {
   width: 100%;
-  background: #000b1d;
-  color: white;
-  padding: 15px;
-  border-radius: 10px;
+  background: var(--primary-black);
+  color: var(--bg-dashboard);
+  padding: 16px;
+  border-radius: 12px;
   border: none;
   font-weight: bold;
   cursor: pointer;
   margin-top: 20px;
-  transition: opacity 0.2s;
-  &:hover:not(:disabled) { opacity: 0.9; }
-  &:disabled { background: #ccc; cursor: not-allowed; }
+  transition: all 0.3s ease;
+  &:disabled { background: var(--text-muted); cursor: not-allowed; opacity: 0.6; }
 }
 
 .btn-cancel {
   width: 100%;
   background: transparent;
-  color: #666;
-  padding: 10px;
-  border: 1px solid #ddd;
+  color: var(--text-secondary);
+  padding: 12px;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
   margin-top: 10px;
   cursor: pointer;
-  &:hover { background: #f9f9f9; }
 }
 
-/* --- ESTILOS DE LA TABLA --- */
+/* Estilos de Tabla */
 .table-container {
   overflow-x: auto;
   margin-top: 10px;
@@ -124,67 +109,16 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
-
-    th, td {
-      padding: 15px;
-      text-align: left;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    th {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #444;
-      background: #fafafa;
-      /* Mantiene el encabezado visible al hacer scroll si limitas el contenedor */
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    td {
-      font-size: 0.85rem;
-      color: #555;
-    }
-
-    /* Quita la línea final para que no choque con el borde de la card */
-    tr:last-child td {
-      border-bottom: none;
-    }
-
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+    th { background: var(--hover-bg); color: var(--text-primary); }
+    td { color: var(--text-secondary); font-size: 0.9rem; }
     .badge-role {
-      background: #e8e8ff;
-      color: #6c63ff;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      background: var(--badge-bg); color: var(--badge-text);
+      padding: 5px 12px; border-radius: 6px; font-weight: 600;
     }
-
     .actions {
-      display: flex;
-      gap: 12px;
-
-      .btn-icon {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1.1rem;
-        padding: 5px;
-        border-radius: 5px;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background-color: #f0f0f0;
-          transform: scale(1.1);
-        }
-
-        &.delete:hover {
-          color: #ff4d4f;
-          background-color: #fff1f0;
-        }
-      }
+      display: flex; gap: 12px;
+      .btn-icon { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--text-primary); }
     }
   }
 }

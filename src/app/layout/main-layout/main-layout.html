@@ -7,13 +7,13 @@
     <div class="right-section">
         <span class="user-name">{{ userName }}</span>
         <div class="user-avatar" (click)="toggleProfile()">
-            <img *ngIf="profileImage && refreshKey >= 0" [src]="profileImage" />
+            <img *ngIf="profileImage" [src]="profileImage + '?rev=' + refreshKey" />
             <span *ngIf="!profileImage">
                 {{ userName ? userName.charAt(0).toUpperCase() : 'U' }}
             </span>
         </div>
         <button class="theme-toggle" (click)="toggleTheme()">
-            {{ isDarkMode ? '☀️' : '🌙' }}
+            {{ isDarkMode ? '☼︎' : '☾' }}
         </button>
     </div>
 </header>
@@ -21,13 +21,16 @@
 <div class="sidebar-overlay" *ngIf="isMenuOpen" (click)="toggleMenu()"></div>
 
 <aside class="sidebar" [class.open]="isMenuOpen">
-    <div class="sidebar-tittle">Menú</div>
+    <div class="sidebar-header">
+        <div class="sidebar-tittle">Menú</div>
+        <button class="close-sidebar" (click)="toggleMenu()">✕</button>
+    </div>
     <nav>
-        <a class="nav-item" routerLink="/analisis">Inicio</a>
-        <a class="nav-item" routerLink="/history">Historial</a>
-        <a class="nav-item" *ngIf="userRole === 'Admin'" (click)="toggleRegister()">Registrar Usuarios</a>
+        <a class="nav-item" routerLink="/analisis" routerLinkActive="active" (click)="isMenuOpen = false">Inicio</a>
+        <a class="nav-item" routerLink="/history" routerLinkActive="active" (click)="isMenuOpen = false">Historial</a>
+        <a class="nav-item" *ngIf="userRole === 'Admin'" routerLink="/user-register" routerLinkActive="active" (click)="isMenuOpen = false">Registrar Usuarios</a>
         <div class="divider"></div>
-        <a class="nav-item logout" (click)="logout()">Cerrar Sesion</a>
+        <a class="nav-item logout" (click)="logout()">Cerrar Sesión</a>
     </nav>
 </aside>
 
@@ -42,26 +45,26 @@
         <h2>Perfil de Usuario</h2>
         <button (click)="toggleProfile()">✕</button>
     </div>
-
     <p class="subtitle">Gestiona tu información personal</p>
-
     <div class="avatar-large">
-        <img *ngIf="profileImage && refreshKey >= 0" [src]="profileImage" />
+        <img *ngIf="profileImage" [src]="profileImage + '?rev=' + refreshKey" />
         <span *ngIf="!profileImage">
             {{ userName ? userName.charAt(0).toUpperCase() : 'U' }}
         </span>
     </div>
-
     <label class="upload-btn">
         📷 Cambiar imagen
         <input type="file" accept="image/*" (change)="onImageSelected($event)" hidden />
     </label>
-
     <div class="profile-info">
         <label>Nombre de usuario</label>
         <p>{{ userName }}</p>
-
         <label>Rol</label>
         <span class="role-badge">{{ userRole }}</span>
     </div>
+</div>
+
+<div class="toast-notification" [class.show]="showToast">
+    <span class="icon">✅</span>
+    <span class="message">Imagen actualizada con éxito</span>
 </div>

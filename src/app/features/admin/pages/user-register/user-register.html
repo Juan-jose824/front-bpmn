@@ -2,7 +2,7 @@
   <div class="card register-card">
     <div class="card-header">
       <h1>{{ isEditing ? 'Editar Usuario' : 'Registrar Nuevo Usuario' }}</h1>
-      <p>{{ isEditing ? 'Modifica los datos del usuario seleccionado' : 'Completa el formulario para crear un nuevo usuario' }}</p>
+      <p class="subtitle">{{ isEditing ? 'Modifica los datos del usuario seleccionado' : 'Completa el formulario para crear un nuevo usuario' }}</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">

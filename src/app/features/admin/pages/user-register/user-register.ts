@@ -27,6 +27,7 @@ export class UserRegister implements OnInit {
     this.registerForm = this.initForm();
   }
 
+  // Método para inicializar el formulario de registro
   private initForm() {
     return this.fb.group({
       username: ['', Validators.required],
@@ -37,6 +38,8 @@ export class UserRegister implements OnInit {
     });
   }
 
+
+// Método para verificar si el usuario es admin al cargar la página
   ngOnInit(): void {
     const data = localStorage.getItem('usuario');
     const user = data ? JSON.parse(data) : null;
@@ -48,6 +51,7 @@ export class UserRegister implements OnInit {
     }
   }
 
+  // Método para cargar usuarios registrados
   cargarUsuarios() {
     this.authService.getUsers().subscribe({
       next: (res) => {
@@ -58,6 +62,7 @@ export class UserRegister implements OnInit {
     });
   }
   
+  // Método para registrar o actualizar usuario
   onRegister() {
     if (this.registerForm.invalid) return;
     
@@ -80,6 +85,7 @@ export class UserRegister implements OnInit {
     }
   }
 
+  // Método para editar un usuario existente
   editarUsuario(user: any) {
     this.isEditing = true;
     this.usernameOriginal = user.user_name;
@@ -97,7 +103,8 @@ export class UserRegister implements OnInit {
     this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     this.cdr.detectChanges();
   }
-
+  
+  // Método para actualizar usuario
   cancelarEdicion() {
     this.isEditing = false;
     this.usernameOriginal = '';
@@ -109,6 +116,7 @@ export class UserRegister implements OnInit {
     this.cdr.detectChanges();
   }
 
+  // Método para eliminar usuario
   eliminarUsuario(username: string) {
     if (confirm(`¿Estás seguro de que deseas eliminar al usuario ${username}?`)) {
       this.authService.deleteUser(username).subscribe({

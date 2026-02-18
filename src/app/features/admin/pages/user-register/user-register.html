@@ -2,7 +2,7 @@
   <div class="card register-card">
     <div class="card-header">
       <h1>{{ isEditing ? 'Editar Usuario' : 'Registrar Nuevo Usuario' }}</h1>
-      <p class="subtitle">{{ isEditing ? 'Modifica los datos del usuario seleccionado' : 'Completa el formulario para crear un nuevo usuario' }}</p>
+      <p class="subtitle">Completa solo los campos que desees modificar</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
@@ -16,16 +16,14 @@
           <input type="email" formControlName="email" placeholder="usuario@example.com">
         </div>
         
-        <ng-container *ngIf="!isEditing">
-          <div class="form-group">
-            <label>Contraseña</label>
-            <input type="password" formControlName="password" placeholder="••••••••">
-          </div>
-          <div class="form-group">
-            <label>Confirmar Contraseña</label>
-            <input type="password" formControlName="confirmPassword" placeholder="••••••••">
-          </div>
-        </ng-container>
+        <div class="form-group">
+          <label>Contraseña {{ isEditing ? '(Nueva)' : '' }}</label>
+          <input type="password" formControlName="password" [placeholder]="isEditing ? 'Opcional' : '••••••••'">
+        </div>
+        <div class="form-group">
+          <label>Confirmar Contraseña</label>
+          <input type="password" formControlName="confirmPassword" [placeholder]="isEditing ? 'Opcional' : '••••••••'">
+        </div>
       </div>
 
       <div class="form-group full-width">
@@ -36,7 +34,8 @@
         </select>
       </div>
 
-      <button type="submit" class="btn-submit" [disabled]="registerForm.invalid">
+      <button type="submit" class="btn-submit" 
+        [disabled]="registerForm.invalid || (registerForm.value.password !== registerForm.value.confirmPassword)">
         {{ isEditing ? 'Actualizar Cambios' : 'Registrar Usuario' }}
       </button>
       
@@ -48,8 +47,6 @@
 
   <div class="card list-card">
     <h2>Usuarios Registrados</h2>
-    <p class="subtitle">{{ registeredUsers.length }} usuarios en el sistema</p>
-
     <div class="table-container">
       <table>
         <thead>
@@ -68,8 +65,8 @@
             <td><span class="badge-role">{{ user.rol }}</span></td>
             <td>{{ user.fecha_registro | date:'dd/MM/yyyy' }}</td>
             <td class="actions">
-              <button class="btn-icon edit" (click)="editarUsuario(user)" title="Editar">✏️</button>
-              <button class="btn-icon delete" (click)="eliminarUsuario(user.user_name)" title="Eliminar">🗑️</button>
+              <button class="btn-icon edit" (click)="editarUsuario(user)">✏️</button>
+              <button class="btn-icon delete" (click)="eliminarUsuario(user.user_name)">🗑️</button>
             </td>
           </tr>
         </tbody>

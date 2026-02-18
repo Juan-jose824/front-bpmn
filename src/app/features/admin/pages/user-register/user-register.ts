@@ -38,8 +38,7 @@ export class UserRegister implements OnInit {
     });
   }
 
-
-// Método para verificar si el usuario es admin al cargar la página
+  // Método para verificar si el usuario es admin al cargar la página
   ngOnInit(): void {
     const data = localStorage.getItem('usuario');
     const user = data ? JSON.parse(data) : null;
@@ -64,24 +63,58 @@ export class UserRegister implements OnInit {
   
   // Método para registrar o actualizar usuario
   onRegister() {
-    if (this.registerForm.invalid) return;
-    
+    // Obtenemos los valores actuales
+    const formValues = this.registerForm.getRawValue();
+
+    // Si el admin escribió algo en password, validamos que coincidan antes de seguir
+    if (formValues.password || formValues.confirmPassword) {
+      if (formValues.password !== formValues.confirmPassword) {
+        alert('Las contraseñas no coinciden');
+        return;
+      }
+    }
+
     if (this.isEditing) {
-      const formValues = this.registerForm.getRawValue();
-      const updateData = {
+      const updateData: any = {
         new_username: formValues.username,
+        email: formValues.email,
         role: formValues.role
       };
+
+      // Solo incluimos la contraseña si el admin escribió una nueva
+      if (formValues.password && formValues.password.trim() !== '') {
+        updateData.password = formValues.password;
+      }
       
       this.authService.updateUser(this.usernameOriginal, updateData).subscribe({
         next: () => {
-          alert('Actualizado');
+          alert('Usuario actualizado correctamente');
           this.cancelarEdicion();
+          this.cargarUsuarios();
+        },
+        error: (err) => alert('Error al actualizar')
+      });
+    } else {
+      // Lógica de registro (aquí sí es obligatorio todo)
+      if (this.registerForm.invalid) {
+        alert('Por favor rellene todos los campos correctamente');
+        return;
+      }
+
+      const newUser = {
+        username: formValues.username,
+        email: formValues.email,
+        password: formValues.password,
+        role: formValues.role
+      };
+
+      this.authService.register(newUser).subscribe({
+        next: () => {
+          alert('Usuario registrado con éxito');
+          this.registerForm.reset({ role: 'Usuario'});
           this.cargarUsuarios();
         }
       });
-    } else {
-      // Lógica de registro...
     }
   }
 
@@ -90,26 +123,32 @@ export class UserRegister implements OnInit {
     this.isEditing = true;
     this.usernameOriginal = user.user_name;
     
+    // 1. Limpiamos validaciones de password para que el formulario sea VÁLIDO aunque estén vacíos
+    this.registerForm.get('password')?.clearValidators();
+    this.registerForm.get('confirmPassword')?.clearValidators();
+    
+    // 2. Cargamos los datos
     this.registerForm.patchValue({
       username: user.user_name,
       email: user.email,
-      role: user.rol
+      role: user.rol,
+      password: '', 
+      confirmPassword: ''
     });
     
-    this.registerForm.get('email')?.disable();
-    this.registerForm.get('password')?.clearValidators();
-    this.registerForm.get('confirmPassword')?.clearValidators();
+    // 3. Actualizamos estado
     this.registerForm.get('password')?.updateValueAndValidity();
     this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     this.cdr.detectChanges();
   }
   
-  // Método para actualizar usuario
+  // Método para cancelar edicion
   cancelarEdicion() {
     this.isEditing = false;
     this.usernameOriginal = '';
     this.registerForm.reset({ role: 'Usuario' });
-    this.registerForm.get('email')?.enable();
+    
+    // Al cancelar, volvemos a poner los validadores obligatorios para nuevos registros
     this.registerForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
     this.registerForm.get('confirmPassword')?.setValidators([Validators.required]);
     this.registerForm.updateValueAndValidity();
@@ -123,8 +162,7 @@ export class UserRegister implements OnInit {
         next: () => {
           alert('Usuario eliminado');
           this.cargarUsuarios();
-        },
-        error: (err) => alert('Error al eliminar')
+        }
       });
     }
   }

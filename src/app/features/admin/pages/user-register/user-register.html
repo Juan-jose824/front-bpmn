@@ -57,6 +57,7 @@
             <th>Usuario</th>
             <th>Correo Electrónico</th>
             <th>Rol</th>
+            <th>Fecha de Registro</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -65,6 +66,7 @@
             <td>{{ user.user_name }}</td>
             <td>{{ user.email }}</td>
             <td><span class="badge-role">{{ user.rol }}</span></td>
+            <td>{{ user.fecha_registro | date:'dd/MM/yyyy' }}</td>
             <td class="actions">
               <button class="btn-icon edit" (click)="editarUsuario(user)" title="Editar">✏️</button>
               <button class="btn-icon delete" (click)="eliminarUsuario(user.user_name)" title="Eliminar">🗑️</button>

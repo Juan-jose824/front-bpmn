@@ -119,7 +119,14 @@
       }
     }
 
-    .divider { height: 1px; background: var(--border-color); margin: 15px 0; }
+    .divider {
+      width: 100%;
+      height: 2px;
+      background:#484848;
+      margin: 12px 0;
+      border-radius: 1px;
+      align-self: stretch;
+    }
   }
 }
 

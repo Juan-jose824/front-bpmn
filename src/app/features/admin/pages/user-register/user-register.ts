@@ -2,15 +2,14 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/authservice'; 
 
 @Component({
   selector: 'app-user-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule], 
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-register.html',
-  styleUrl: './user-register.scss', 
+  styleUrls: ['./user-register.scss'],
 })
 export class UserRegister implements OnInit {
   registerForm: FormGroup;

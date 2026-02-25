@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/authservice';
 
 @Component({
   selector: 'app-analisis-main',
@@ -18,15 +18,19 @@ export class AnalysisMain implements OnInit {
   selectedFile: File | null = null;
   history: any[] =[];
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
   //Verificar autenticación al cargar la página
   ngOnInit() {
-    const data = localStorage.getItem('usuario');
-    if (data) {
-      const stored = JSON.parse(data);
-      const user = stored.user || stored;
-      this.userName = user.username || user.user_name || user.name;
+    const data = this.authService.getCurrentUser() as any | null;
+    const user = data?.user || data;
+    if (user) {
+      this.userName = user.username || user.user_name || user.name || '';
     } else {
-      window.location.href = '/login';
+      this.router.navigate(['/login']);
     }
   }
 
@@ -50,8 +54,7 @@ export class AnalysisMain implements OnInit {
 
   // Cerrar sesión
   logout() {
-    localStorage.removeItem('usuario');
-    window.location.href = '/login';
+    this.authService.logout();
   }
 
 }

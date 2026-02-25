@@ -20,10 +20,11 @@ export class AnalysisMain implements OnInit {
 
   //Verificar autenticación al cargar la página
   ngOnInit() {
-    const data= localStorage.getItem('usuario');
+    const data = localStorage.getItem('usuario');
     if (data) {
-      const user= JSON.parse(data);
-      this.userName = user.name;
+      const stored = JSON.parse(data);
+      const user = stored.user || stored;
+      this.userName = user.username || user.user_name || user.name;
     } else {
       window.location.href = '/login';
     }

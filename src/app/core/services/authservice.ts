@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api'; 
+  private apiUrl = '/api';
 
   constructor(private http: HttpClient) {}
 
@@ -34,6 +34,6 @@ export class AuthService {
  
 // Método para actualizar la imagen de perfil
 updateProfileImage(username: string, imageBase64: string) {
-  return this.http.put(`http://localhost:3000/api/users/profile-image/${username}`, { imageBase64 });
+  return this.http.put(`/api/users/profile-image/${username}`, { imageBase64 });
 }
 }

@@ -24,7 +24,7 @@ export class MainLayout implements OnInit {
   showToast = false;
 
   // URL del servidor para cargar archivos
-  private readonly serverUrl = 'http://localhost:3000/uploads/';
+  private readonly serverUrl = '/uploads/';
 
   // Inyectar servicios necesarios
   constructor(
@@ -39,10 +39,11 @@ export class MainLayout implements OnInit {
     const data = localStorage.getItem('usuario');
 
     if (data) {
-      const user = JSON.parse(data);
-      this.userName = user.name || user.user_name;
+      const stored = JSON.parse(data);
+      const user = stored.user || stored;
+      this.userName = user.username || user.user_name || user.name;
       this.userRole = user.rol;
-      
+
       this.setProfileImage(user.profile_image);
 
       const userThemeKey = `theme_${this.userName}`;
@@ -139,9 +140,10 @@ export class MainLayout implements OnInit {
 
           const data = localStorage.getItem('usuario');
           if (data) {
-            const user = JSON.parse(data);
-            user.profile_image = res.fileName; 
-            localStorage.setItem('usuario', JSON.stringify(user));
+            const stored = JSON.parse(data);
+            const userObj = stored.user || stored;
+            userObj.profile_image = res.fileName;
+            localStorage.setItem('usuario', JSON.stringify(stored));
           }
 
           this.cdr.detectChanges(); 

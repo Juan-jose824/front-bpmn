@@ -38,13 +38,12 @@ export class MainLayout implements OnInit, OnDestroy {
 
   // Verificar autenticación y cargar preferencias al iniciar
   ngOnInit() {
-    const data = localStorage.getItem('usuario');
+    const data = this.authService.getCurrentUser();
 
     if (data) {
-      const stored = JSON.parse(data);
-      const user = stored.user || stored;
-      this.userName = user.username || user.user_name || user.name || '';
-      this.userRole = user.rol;
+      const user = (data as any).user || data;
+      this.userName = (user.username || user.user_name || user.name || '') as string;
+      this.userRole = (user.rol || user.role || '') as string;
 
       this.setProfileImage(user.profile_image);
 
@@ -145,13 +144,7 @@ export class MainLayout implements OnInit, OnDestroy {
           
           this.triggerNotification();
 
-          const data = localStorage.getItem('usuario');
-          if (data) {
-            const stored = JSON.parse(data);
-            const userObj = stored.user || stored;
-            userObj.profile_image = res.fileName;
-            localStorage.setItem('usuario', JSON.stringify(stored));
-          }
+          this.authService.updateStoredUser({ profile_image: res.fileName } as any);
 
           this.cdr.detectChanges(); 
         });

@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { AuthService } from './authservice';
 
-/** Tiempo de inactividad en ms antes de cerrar sesión (15 min). */
-const IDLE_TIMEOUT_MS = 15 * 60 * 1000;
+/** Tiempo de inactividad en ms antes de cerrar sesión (10 min). */
+const IDLE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutos de inactividad → cierra sesión
 
 @Injectable({
   providedIn: 'root',

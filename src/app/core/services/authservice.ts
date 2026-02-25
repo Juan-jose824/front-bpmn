@@ -115,6 +115,15 @@ export class AuthService {
     localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
   }
 
+  /** Actualiza el usuario guardado (ej. profile_image) */
+  updateStoredUser(updates: Record<string, unknown>): void {
+    const user = this.getCurrentUser();
+    if (user) {
+      const updated = { ...user, ...updates };
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updated));
+    }
+  }
+
   getToken(): string | null {
     return localStorage.getItem(STORAGE_KEYS.TOKEN);
   }

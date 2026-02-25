@@ -39,11 +39,11 @@ export class UserRegister implements OnInit {
 
   // Método para verificar si el usuario es admin al cargar la página
   ngOnInit(): void {
-    const data = localStorage.getItem('usuario');
-    const stored = data ? JSON.parse(data) : null;
-    const user = stored?.user || stored;
+    const data = this.authService.getCurrentUser() as any;
+    const user = data?.user || data;
+    const rol = user?.rol || user?.role;
 
-    if (!user || user.rol !== 'Admin') {
+    if (!user || rol !== 'Admin') {
       this.router.navigate(['/analisis']);
     } else {
       this.cargarUsuarios(); 

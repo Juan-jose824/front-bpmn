@@ -56,7 +56,7 @@ export class Login {
             ...raw,
             user_name: raw.user_name ?? raw.username,
             name: raw.name ?? raw.user_name ?? raw.username,
-            rol: raw.rol ?? res.rol ?? raw.role ?? res.role,
+            rol: raw.rol ?? res.rol ?? (raw as any).role ?? (res as any).role,
           };
 
           if (token) {

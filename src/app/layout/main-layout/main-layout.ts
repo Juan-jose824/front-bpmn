@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterLink, RouterOutlet, RouterModule, Router } from "@angular/router";
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 import { HostListener } from '@angular/core';
 import { NgZone } from '@angular/core';
-import { AuthService } from '../../core/services/authservice';
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../core/services/authservice';
+import { IdleService } from '../../core/services/idle.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -13,7 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
 })
-export class MainLayout implements OnInit {
+export class MainLayout implements OnInit, OnDestroy {
   userName: string = '';
   userRole: string = '';
   isMenuOpen = false;
@@ -31,6 +32,7 @@ export class MainLayout implements OnInit {
     private router: Router,
     private zone: NgZone,
     private authService: AuthService,
+    private idleService: IdleService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -40,7 +42,7 @@ export class MainLayout implements OnInit {
 
     if (data) {
       const user = JSON.parse(data);
-      this.userName = user.name || user.user_name;
+      this.userName = user.name || user.user_name || (user as any).username || '';
       this.userRole = user.rol;
       
       this.setProfileImage(user.profile_image);
@@ -55,9 +57,14 @@ export class MainLayout implements OnInit {
         document.body.classList.remove('dark-theme');
         this.isDarkMode = false;
       }
+      this.idleService.start();
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.idleService.stop();
   }
 
   // Método para construir la URL final
@@ -89,8 +96,8 @@ export class MainLayout implements OnInit {
   // Método para cerrar sesión
   logout() {
     document.body.classList.remove('dark-theme');
-    localStorage.removeItem('usuario');
-    this.router.navigate(['/login']);
+    this.idleService.stop();
+    this.authService.logout();
   }
 
   // Método para abrir/cerrar el menú lateral

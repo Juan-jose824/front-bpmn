@@ -1,29 +1,39 @@
 <div class="dashboard-container">
-
     <section class="analisis-card">
         <h1>Analizar Documento</h1>
-        <p class="subtitle">Sube un archivo PDF con la documentación de tu proyecto para generar un diagrama BPMN</p>
+        <p class="subtitle">Sube un archivo PDF para generar tu diagrama BPMN con Claude IA</p>
         
-        <div class="upload-zone" (click)="fileInput.click()">
+        <div class="upload-zone" (click)="!isLoading && fileInput.click()" [class.disabled]="isLoading">
             <div class="upload-icon"></div>
-            <p>{{ selectedFile ? selectedFile.name : 'Has clic para seleccionar un archivo PDF' }}</p>
+            <p>{{ selectedFile ? selectedFile.name : 'Haz clic para seleccionar un archivo PDF' }}</p>
             <span class="format">Formato soportado: PDF</span>
             <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept=".pdf">
         </div>
 
-        <button class="btn-primary-black" *ngIf="selectedFile">
-           📄 Analizar Documento
+        <button class="btn-primary-black" 
+                *ngIf="selectedFile && !resultadoBpmn" 
+                (click)="analizarDocumento()" 
+                [disabled]="isLoading">
+            {{ isLoading ? '⌛ Analizando con IA...' : '📄 Analizar Documento' }}
+        </button>
+
+        <button class="btn-success" 
+                *ngIf="resultadoBpmn" 
+                (click)="descargarDiagrama()" 
+                style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+            Descargar Diagrama .BPMN
         </button>
     </section>
 
     <section class="hitory-card">
         <h2>Historial Reciente</h2>
-        <p class="subtitle">Documentos analizados recientemente</p>
-
         <div class="empty-history" *ngIf="history.length === 0">
             No hay consultas recientes.
         </div>
-
-        <div class="history-list" *ngIf="history.length > 0"></div>
+        <div class="history-list" *ngIf="history.length > 0">
+            <div *ngFor="let item of history" class="history-item">
+                {{ item.name }} - {{ item.date | date:'short' }}
+            </div>
+        </div>
     </section>
 </div>

@@ -2,7 +2,7 @@
     <div class="history-card">
         <div class="card-header">
             <h1>Historial de Análisis</h1>
-            <p>Aqui verás todos los documentos que has analizado</p>
+            <p>Aquí verás todos los documentos que has analizado</p>
         </div>
 
         <div class="empty-state" *ngIf="documents.length === 0">
@@ -11,6 +11,16 @@
             <p>Analiza tu primer documento desde la página de inicio</p>
         </div>
 
-        <div class="documents-list" *ngIf="documents.length > 0"></div>
+        <div class="documents-list" *ngIf="documents.length > 0">
+            <div *ngFor="let doc of documents" class="history-item-card">
+                <div class="info">
+                    <strong>{{ doc.file_name }}</strong>
+                    <span>{{ (doc.created_at || doc.date) | date:'medium' }}</span>
+                </div>
+                <button *ngIf="doc.bpmn_xml" (click)="descargarDesdeHistorial(doc.bpmn_xml, doc.file_name)">
+                    Descargar .BPMN
+                </button>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { STORAGE_KEYS } from '../constants/storage-keys';
 
@@ -20,7 +20,6 @@ export interface LoginResponse {
     profile_image?: string | null;
     [key: string]: unknown;
   };
-  /** Compatibilidad: si el backend devuelve datos de usuario en la raíz */
   name?: string;
   user_name?: string;
   email?: string;
@@ -39,11 +38,28 @@ export class AuthService {
     private router: Router
   ) {}
 
+  // --- MÉTODOS DE HISTORIAL (NUEVOS) ---
+
+  /** Guarda un análisis exitoso en la base de datos */
+  saveAnalysis(data: any): Observable<any> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.apiUrl}/save-analysis`, data, { ...HTTP_OPTIONS, headers });
+  }
+
+  /** Obtiene el historial de análisis del usuario actual */
+  getUserHistory(): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/my-history`, { ...HTTP_OPTIONS, headers });
+  }
+
+  // --- MÉTODOS EXISTENTES ---
+
   login(data: { email: string; pass: string }): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data, HTTP_OPTIONS);
   }
 
-  /** Renueva el accessToken usando la cookie refreshToken. Devuelve el nuevo token o falla con error. */
   refreshToken(): Observable<string> {
     return this.http
       .post<{ accessToken: string }>(`${this.apiUrl}/refresh`, {}, HTTP_OPTIONS)
@@ -51,18 +67,8 @@ export class AuthService {
         tap((res) => {
           if (res?.accessToken) {
             localStorage.setItem(STORAGE_KEYS.TOKEN, res.accessToken);
-            const user = this.getCurrentUser();
-            if (user) {
-              localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
-            }
           }
         }),
-        tap((res) => {
-          if (!res?.accessToken) throw new Error('No token in refresh response');
-        })
-      )
-      .pipe(
-        tap(),
         (o: Observable<{ accessToken: string }>) =>
           new Observable<string>((sub) => {
             o.subscribe({
@@ -76,7 +82,6 @@ export class AuthService {
       );
   }
 
-  /** Cierra sesión en el backend (borra cookie) y localmente. */
   logout(): void {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     localStorage.removeItem(STORAGE_KEYS.USER);
@@ -102,20 +107,14 @@ export class AuthService {
   }
 
   updateProfileImage(username: string, imageBase64: string) {
-    return this.http.put(
-      `${this.apiUrl}/users/profile-image/${username}`,
-      { imageBase64 },
-      HTTP_OPTIONS
-    );
+    return this.http.put(`${this.apiUrl}/users/profile-image/${username}`, { imageBase64 }, HTTP_OPTIONS);
   }
 
-  /** Guarda token y usuario tras login (respuesta JWT) */
   setAuth(token: string, user: Record<string, unknown>): void {
     localStorage.setItem(STORAGE_KEYS.TOKEN, token);
     localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
   }
 
-  /** Actualiza el usuario guardado (ej. profile_image) */
   updateStoredUser(updates: Record<string, unknown>): void {
     const user = this.getCurrentUser();
     if (user) {

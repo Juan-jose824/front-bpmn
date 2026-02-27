@@ -26,14 +26,22 @@
     </section>
 
     <section class="hitory-card">
-        <h2>Historial Reciente</h2>
-        <div class="empty-history" *ngIf="history.length === 0">
-            No hay consultas recientes.
-        </div>
-        <div class="history-list" *ngIf="history.length > 0">
-            <div *ngFor="let item of history" class="history-item">
-                {{ item.name }} - {{ item.date | date:'short' }}
+    <h2>Historial Reciente</h2>
+    
+    <div class="empty-history" *ngIf="history.length === 0">
+        No hay consultas recientes.
+    </div>
+
+    <div class="history-list" *ngIf="history.length > 0">
+        <div *ngFor="let item of history" class="history-item">
+            <div class="history-info">
+                <span class="file-name">📄 {{ item.file_name }}</span>
+                <span class="file-date">{{ item.created_at | date:'medium' }}</span>
             </div>
+            <button class="btn-download-small" (click)="descargarDesdeHistorial(item.bpmn_xml, item.file_name)">
+                Descargar .bpmn
+            </button>
         </div>
-    </section>
+    </div>
+</section>
 </div>

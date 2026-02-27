@@ -44,19 +44,21 @@ export class Login {
         next: (res: LoginResponse) => {
           const token = res.token ?? res.accessToken;
 
+          // Accedemos de forma segura para que TypeScript no chille
           const raw = res.user ?? {
-            name: res.name,
-            user_name: res.user_name,
+            name: res['name'],
+            user_name: res['user_name'],
             username: (res as any).username,
-            email: res.email,
-            rol: res.rol,
-            profile_image: res.profile_image,
+            email: res['email'],
+            rol: res['rol'],
+            profile_image: res['profile_image'],
           };
+          
           const user = {
             ...raw,
             user_name: raw.user_name ?? raw.username,
             name: raw.name ?? raw.user_name ?? raw.username,
-            rol: raw.rol ?? res.rol ?? (raw as any).role ?? (res as any).role,
+            rol: raw.rol ?? res['rol'] ?? (raw as any).role ?? (res as any).role,
           };
 
           if (token) {

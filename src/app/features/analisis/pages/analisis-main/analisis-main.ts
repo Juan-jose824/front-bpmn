@@ -126,6 +126,20 @@ export class AnalysisMain implements OnInit {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a); // Limpiar
   }
+  
+  // Nueva función para descargar archivos previos del historial
+  descargarDesdeHistorial(xml: string, fileName: string) {
+    if (!xml) return;
+    const blob = new Blob([xml], { type: 'application/xml' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName.replace('.pdf', '') + '.bpmn';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
 
   // Cerrar sesión
   logout() {

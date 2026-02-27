@@ -1,25 +1,56 @@
 <div class="history-container">
     <div class="history-card">
-        <div class="card-header">
-            <h1>Historial de Análisis</h1>
-            <p>Aquí verás todos los documentos que has analizado</p>
+        <div class="header-section">
+            <div class="card-header">
+                <h1>Historial de Análisis</h1>
+                <p>Aquí verás todos los documentos que has analizado</p>
+            </div>
+
+            <div class="bulk-actions" *ngIf="getSelectedCount() > 0">
+                <span class="selected-text">{{ getSelectedCount() }} seleccionados</span>
+                <button class="btn-delete-bulk" (click)="eliminarSeleccionados()">
+                    🗑️ Eliminar permanentemente
+                </button>
+            </div>
         </div>
+
+        <div class="divider"></div>
 
         <div class="empty-state" *ngIf="documents.length === 0">
             <div class="icon-container">📄</div>
             <h2>No hay documentos en el historial</h2>
-            <p>Analiza tu primer documento desde la página de inicio</p>
+            <p>Analiza tu primer documento desde la página de inicio para verlo aquí.</p>
         </div>
 
         <div class="documents-list" *ngIf="documents.length > 0">
-            <div *ngFor="let doc of documents" class="history-item-card">
-                <div class="info">
-                    <strong>{{ doc.file_name }}</strong>
-                    <span>{{ (doc.created_at || doc.date) | date:'medium' }}</span>
+            <div *ngFor="let doc of documents" 
+                 class="history-item-row" 
+                 [class.is-selected]="doc.selected">
+                
+                <div class="left-section">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" [(ngModel)]="doc.selected">
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <div class="info">
+                        <strong class="file-title">{{ doc.file_name }}</strong>
+                        <span class="date">
+                            📅 {{ (doc.fecha_creacion || doc.date) | date:'medium' }}
+                        </span>
+                    </div>
                 </div>
-                <button *ngIf="doc.bpmn_xml" (click)="descargarDesdeHistorial(doc.bpmn_xml, doc.file_name)">
-                    Descargar .BPMN
-                </button>
+
+                <div class="right-section">
+                    <button class="btn-download" 
+                            *ngIf="doc.bpmn_xml" 
+                            (click)="descargarDesdeHistorial(doc.bpmn_xml, doc.file_name)">
+                        📥 Descargar .BPMN
+                    </button>
+                    
+                    <span class="status-badge">Guardado</span>
+                </div>
+
             </div>
         </div>
     </div>

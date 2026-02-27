@@ -5,6 +5,7 @@
   height: calc(100vh - 60px);
   overflow-y: auto;
   min-height: calc(100vh - 60px);
+
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -51,6 +52,15 @@
     border-color: var(--primary-black);
   }
 
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    &:hover {
+      background: var(--upload-bg);
+      border-color: var(--upload-border);
+    }
+  }
+
   p {
     margin: 10px 0;
     font-weight: 500;
@@ -64,11 +74,11 @@
   }
 }
 
-/* Botón Negro Principal */
+/* Botones */
 .btn-primary-black {
   width: 100%;
   background: var(--primary-black);
-  color: var(--bg-dashboard);
+  color: #ffffff;
   border: none;
   padding: 16px;
   border-radius: 12px;
@@ -79,19 +89,101 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  transition: transform 0.1s active;
+  transition: transform 0.1s;
 
-  &:active {
-    transform: scale(0.99);
+  &:disabled {
+    background: #555;
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
   }
 }
 
-/* Historial vacío */
+.btn-success {
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: #218838;
+  }
+}
+
+/* --- SECCIÓN DE HISTORIAL --- */
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: var(--bg-dashboard); // Fondo ligeramente distinto para resaltar
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border-color: var(--primary-black);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    .file-name {
+      font-weight: 600;
+      color: var(--text-body);
+      font-size: 0.95rem;
+    }
+    
+    .file-date {
+      font-size: 0.8rem;
+      color: var(--text-muted-light);
+    }
+  }
+}
+
+.btn-download-small {
+  background: white;
+  border: 1.5px solid var(--primary-black);
+  color: var(--primary-black);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--primary-black);
+    color: white;
+  }
+}
+
 .empty-history {
-  padding: 20px;
+  padding: 40px 20px;
   text-align: center;
   color: var(--text-muted-light);
   font-style: italic;
-  border: 1px solid var(--border-light);
-  border-radius: 10px;
+  border: 2px dashed var(--border-light);
+  border-radius: 15px;
+  font-size: 0.9rem;
 }

@@ -6,4 +6,5 @@ export const STORAGE_KEYS = {
   LAST_HIDDEN_AT: 'auth_last_hidden_at',
 } as const;
 
-export const SESSION_AWAY_MS = 10 * 60 * 1000; // 10 minutos fuera → caduca sesión
+// 8 horas * 60 minutos * 60 segundos * 1000 milisegundos
+export const SESSION_AWAY_MS = 8 * 60 * 60 * 1000;

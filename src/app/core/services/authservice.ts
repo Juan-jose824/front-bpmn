@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs'; // 1. IMPORTANTE: Agregamos 'tap'
 import { Router } from '@angular/router';
 import { STORAGE_KEYS } from '../constants/storage-keys';
 
@@ -45,7 +45,6 @@ export class AuthService {
   deleteAnalysis(ids: number[]): Observable<any> {
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    // Usamos { ids } para que el body coincida con el backend req.body.ids
     return this.http.post(`${this.apiUrl}/delete-analysis`, { ids }, { ...HTTP_OPTIONS, headers });
   }
 
@@ -53,9 +52,17 @@ export class AuthService {
     return !!this.getToken();
   }
 
-  // CORREGIDO: Ruta cambiada de /refresh-token a /refresh para coincidir con el index.js
+  // CORREGIDO: Ahora guarda el token de 8 horas en el LocalStorage automáticamente
   refreshToken(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/refresh`, {}, HTTP_OPTIONS);
+    return this.http.post<any>(`${this.apiUrl}/refresh`, {}, HTTP_OPTIONS).pipe(
+      tap(res => {
+        if (res && res.accessToken) {
+          // Guardamos el nuevo token para que la siguiente petición sea exitosa
+          localStorage.setItem(STORAGE_KEYS.TOKEN, res.accessToken);
+          console.log('Token de acceso renovado por 8 horas');
+        }
+      })
+    );
   }
 
   setAuth(token: string, user: Record<string, any>): void {

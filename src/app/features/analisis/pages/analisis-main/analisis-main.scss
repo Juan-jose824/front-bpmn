@@ -1,14 +1,12 @@
-/* ================= CONTENEDOR PRINCIPAL ================= */
-
 .dashboard-container {
   padding: 30px;
   background-color: var(--bg-dashboard);
   height: calc(100vh - 60px);
   overflow-y: auto;
-  min-height: calc(100vh - 60px);
+  color: var(--text-primary);
 }
 
-/* ================= CARDS ================= */
+/* CARDS */
 
 .analisis-card,
 .hitory-card {
@@ -18,9 +16,9 @@
   margin-bottom: 25px;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border-light);
+  color: var(--text-primary);
 
-  h1,
-  h2 {
+  h1, h2 {
     font-size: 1.5rem;
     margin-bottom: 8px;
     color: var(--text-title);
@@ -29,11 +27,10 @@
   .subtitle {
     color: var(--text-subtitle);
     margin-bottom: 20px;
-    font-size: 0.95rem;
   }
 }
 
-/* ================= ZONA DE CARGA ================= */
+/* UPLOAD */
 
 .upload-zone {
   border: 2px dashed var(--upload-border);
@@ -42,7 +39,6 @@
   text-align: center;
   cursor: pointer;
   margin-bottom: 20px;
-  transition: all 0.3s ease;
   background: var(--upload-bg);
 
   &:hover {
@@ -50,30 +46,17 @@
     border-color: var(--accent);
   }
 
-  &.disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-
-    &:hover {
-      background: var(--upload-bg);
-      border-color: var(--upload-border);
-    }
-  }
-
   p {
-    margin: 10px 0;
-    font-weight: 500;
     color: var(--text-body);
   }
 
   .format {
     font-size: 0.8rem;
     color: var(--text-muted-light);
-    display: block;
   }
 }
 
-/* ================= BOTÓN PRINCIPAL ================= */
+/* BUTTONS */
 
 .btn-primary-black {
   width: 100%;
@@ -83,114 +66,58 @@
   padding: 16px;
   border-radius: 12px;
   font-weight: bold;
-  font-size: 1rem;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: transform 0.1s ease, opacity 0.2s ease;
 
   &:disabled {
     background: var(--disabled-bg);
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
   }
 }
-
-/* ================= BOTÓN SUCCESS ================= */
-
-.btn-success {
-  width: 100%;
-  background-color: var(--accent);
-  color: var(--bg-main);
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.85;
-  }
-}
-
-/* ================= SECCIÓN HISTORIAL ================= */
-
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 15px;
-}
-
-.history-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background: var(--bg-dashboard);
-  border-radius: 12px;
-  border: 1px solid var(--border-light);
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    border-color: var(--accent);
-    transform: translateX(4px);
-    box-shadow: var(--card-shadow);
-  }
-
-  .history-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-
-    .file-name {
-      font-weight: 600;
-      color: var(--text-body);
-      font-size: 0.95rem;
-    }
-
-    .file-date {
-      font-size: 0.8rem;
-      color: var(--text-muted-light);
-    }
-  }
-}
-
-/* ================= BOTÓN DESCARGA PEQUEÑO ================= */
 
 .btn-download-small {
   background: transparent;
-  border: 1.5px solid var(--primary-black);
-  color: var(--primary-black);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
   padding: 8px 14px;
   border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
 
   &:hover {
-    background: var(--primary-black);
+    background: var(--accent);
     color: var(--bg-main);
   }
 }
 
-/* ================= ESTADO VACÍO ================= */
+/* HISTORY SECTION */
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow: var(--card-shadow);
+  }
+
+  .file-name {
+    font-weight: 600;
+    color: var(--text-body);
+  }
+
+  .file-date {
+    font-size: 0.8rem;
+    color: var(--text-muted-light);
+  }
+}
 
 .empty-history {
-  padding: 40px 20px;
+  padding: 40px;
   text-align: center;
   color: var(--text-muted-light);
-  font-style: italic;
   border: 2px dashed var(--border-light);
   border-radius: 15px;
-  font-size: 0.9rem;
 }

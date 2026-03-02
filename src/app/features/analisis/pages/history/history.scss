@@ -1,20 +1,20 @@
 .history-container {
   padding: 40px;
-  background-color: var(--bg-history, #f4f7f6);
+  background-color: var(--bg-history);
   height: 100vh;
   display: flex;
   justify-content: center;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .history-card {
-  background: var(--history-card-bg, #ffffff);
+  background: var(--history-card-bg);
   width: 100%;
   max-width: 1000px;
   border-radius: 15px;
   padding: 30px;
-  box-shadow: var(--history-shadow, 0 8px 30px rgba(0,0,0,0.05));
-  border: 1px solid var(--history-border, #e2e8f0);
+  box-shadow: var(--history-shadow);
+  border: 1px solid var(--history-border);
   display: flex;
   flex-direction: column;
   max-height: 90vh;
@@ -28,74 +28,149 @@
   }
 }
 
+/* ================= BULK ACTIONS ================= */
+
 .bulk-actions {
   display: flex;
   align-items: center;
   gap: 15px;
-  background: #fff5f5;
+  background: var(--badge-bg);
   padding: 10px 20px;
   border-radius: 10px;
-  border: 1px solid #feb2b2;
-  
-  .selected-text { font-weight: 700; color: #c53030; }
+  border: 1px solid var(--history-border);
+
+  .selected-text {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
   .btn-delete-bulk {
-    background: #e53e3e; color: white; border: none;
-    padding: 8px 16px; border-radius: 6px; cursor: pointer;
-    &:hover { background: #c53030; }
+    background: var(--delete-hover-bg);
+    color: var(--delete-hover-text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.85;
+    }
   }
 }
+
+/* ================= DOCUMENT LIST ================= */
 
 .documents-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow-y: auto; // Scroll Interno
+  overflow-y: auto;
   padding-right: 10px;
   flex-grow: 1;
-
-  &::-webkit-scrollbar { width: 6px; }
-  &::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
 }
+
+/* ================= HISTORY ITEM ================= */
 
 .history-item-row {
   display: flex;
-  justify-content: space-between; // Contenido izquierda <---> Botón derecha
+  justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background: #ffffff;
-  border: 1px solid var(--history-border, #e2e8f0);
+  background: var(--card-bg);
+  border: 1px solid var(--history-border);
   border-radius: 12px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 
-  &:hover { background: #f8fbff; border-color: var(--primary-color, #4a90e2); }
-  &.is-selected { background: #f0f7ff; border-color: var(--primary-color, #4a90e2); }
+  &:hover {
+    background: var(--icon-hover-bg);
+    border-color: var(--accent);
+  }
 
-  .left-section { display: flex; align-items: center; gap: 15px; }
+  &.is-selected {
+    background: var(--badge-bg);
+    border-color: var(--accent);
+  }
+
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
   .info {
-    display: flex; flex-direction: column;
-    strong { color: var(--history-title); font-size: 1rem; }
-    .date { color: var(--history-subtitle); font-size: 0.8rem; }
+    display: flex;
+    flex-direction: column;
+
+    strong {
+      color: var(--history-title);
+      font-size: 1rem;
+    }
+
+    .date {
+      color: var(--history-subtitle);
+      font-size: 0.8rem;
+    }
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
   }
 
   .btn-download {
-    background: white;
-    color: var(--primary-color, #4a90e2);
-    border: 1.5px solid var(--primary-color, #4a90e2);
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
     padding: 8px 16px;
     border-radius: 8px;
     font-weight: 700;
     cursor: pointer;
-    &:hover { background: var(--primary-color, #4a90e2); color: white; }
+
+    &:hover {
+      background: var(--accent);
+      color: var(--bg-main);
+    }
+  }
+
+  .status-badge {
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
   }
 }
 
-/* Checkbox Personalizado */
+/* ================= CUSTOM CHECKBOX ================= */
+
 .checkbox-wrapper {
-  position: relative; width: 22px; height: 22px; cursor: pointer;
-  input { opacity: 0; width: 0; height: 0; }
-  .checkmark {
-    position: absolute; top: 0; left: 0; height: 22px; width: 22px;
-    background-color: #eee; border-radius: 6px; border: 2px solid #ddd;
+  position: relative;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
-  input:checked ~ .checkmark { background-color: #4a90e2; border-color: #4a90e2; }
+
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: var(--input-bg);
+    border-radius: 6px;
+    border: 2px solid var(--input-border);
+    transition: all 0.2s ease;
+  }
+
+  input:checked ~ .checkmark {
+    background-color: var(--accent);
+    border-color: var(--accent);
+  }
 }

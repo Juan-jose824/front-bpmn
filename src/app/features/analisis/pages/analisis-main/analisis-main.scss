@@ -1,81 +1,123 @@
 .dashboard-container {
   padding: 30px;
   background-color: var(--bg-dashboard);
-  min-height: calc(100vh - 60px);
+  height: calc(100vh - 60px);
   overflow-y: auto;
   color: var(--text-primary);
+}
 
-  .analisis-card, .hitory-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--border-light);
+/* CARDS */
 
-    h1, h2 {
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-      color: var(--text-title);
-    }
+.analisis-card,
+.hitory-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
 
-    .subtitle {
-      color: var(--text-subtitle);
-      margin-bottom: 20px;
-    }
+  h1, h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    color: var(--text-title);
   }
 
-  .upload-zone {
-    border: 2px dashed var(--upload-border);
-    border-radius: 15px;
-    padding: 50px 20px;
-    text-align: center;
-    cursor: pointer;
-    background: var(--upload-bg);
-    transition: all 0.3s ease;
+  .subtitle {
+    color: var(--text-subtitle);
+    margin-bottom: 20px;
+  }
+}
 
-    &:hover:not(.disabled) {
-      background: var(--upload-hover-bg);
-      border-color: var(--accent);
-    }
+/* UPLOAD */
 
-    &.disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
+.upload-zone {
+  border: 2px dashed var(--upload-border);
+  border-radius: 15px;
+  padding: 50px 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  background: var(--upload-bg);
 
-    p {
-      color: var(--text-title); // Corregido: antes se perdía
-      font-weight: 500;
-      margin: 10px 0;
-    }
-
-    .format {
-      font-size: 0.8rem;
-      color: var(--text-muted-light);
-    }
+  &:hover {
+    background: var(--upload-hover-bg);
+    border-color: var(--accent);
   }
 
-  /* Listado de historial en Dashboard */
-  .history-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: var(--upload-bg);
-    border-radius: 12px;
-    border: 1px solid var(--border-light);
-    margin-bottom: 10px;
-
-    .file-name {
-      font-weight: 600;
-      color: var(--text-title);
-    }
-
-    .file-date {
-      display: block;
-      font-size: 0.8rem;
-      color: var(--text-muted-light);
-    }
+  p {
+    color: var(--text-body);
   }
+
+  .format {
+    font-size: 0.8rem;
+    color: var(--text-muted-light);
+  }
+}
+
+/* BUTTONS */
+
+.btn-primary-black {
+  width: 100%;
+  background: var(--primary-black);
+  color: var(--bg-main);
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:disabled {
+    background: var(--disabled-bg);
+  }
+}
+
+.btn-download-small {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--accent);
+    color: var(--bg-main);
+  }
+}
+
+/* HISTORY SECTION */
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow: var(--card-shadow);
+  }
+
+  .file-name {
+    font-weight: 600;
+    color: var(--text-body);
+  }
+
+  .file-date {
+    font-size: 0.8rem;
+    color: var(--text-muted-light);
+  }
+}
+
+.empty-history {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted-light);
+  border: 2px dashed var(--border-light);
+  border-radius: 15px;
 }

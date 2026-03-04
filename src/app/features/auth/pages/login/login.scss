@@ -29,6 +29,19 @@ $text-muted: #777;
     backdrop-filter: blur(15px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
+
+    // Estilos para la imagen superior
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+
+        .login-logo {
+            max-width: 270px; // Ajustar según conveniencia
+            height: auto;
+            object-fit: contain;
+        }
+    }
 }
 
 .login-form:hover {

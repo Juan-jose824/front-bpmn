@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+
     .menu-toggle {
       background: none;
       border: none;
@@ -23,12 +24,26 @@
       cursor: pointer;
       color: var(--text-primary);
     }
-  }
 
-  .brand {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 1.1rem;
+    /* Estilos actualizados para la marca y logos */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px; // Espacio entre imágenes y texto
+      
+      .brand-logo {
+        height: 35px; // Tamaño ajustable
+        width: auto;
+        object-fit: contain;
+      }
+
+      .brand-text {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        margin-left: 5px;
+      }
+    }
   }
 
   .right-section {
@@ -48,7 +63,7 @@
   }
 }
 
-/* Menú Lateral (Sidebar) */
+/* El resto de tu SCSS se mantiene igual */
 .sidebar {
   position: fixed;
   left: -280px; 
@@ -102,7 +117,6 @@
       cursor: pointer;
       transition: all 0.2s ease;
 
-      /* Resaltado de página activa */
       &.active {
         background: var(--primary-black);
         color: var(--bg-dashboard);
@@ -139,7 +153,6 @@
   box-sizing: border-box;
 }
 
-/* Perfil y Overlays */
 .sidebar-overlay { position: fixed; inset: 0; background: var(--bg-overlay); z-index: 1050; backdrop-filter: blur(2px); }
 .profile-overlay { position: fixed; inset: 0; background: var(--bg-overlay); backdrop-filter: blur(4px); z-index: 1200; animation: fadeIn 0.2s ease-out; }
 
@@ -196,26 +209,14 @@
   gap: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   z-index: 9999;
-
   transform: translateY(200%); 
   visibility: hidden; 
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
   &.show {
     transform: translateY(0);
     visibility: visible;
   }
-
   .icon { font-size: 1.2rem; }
-}
-
-.user-avatar img, .avatar-large img {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0.5; }
-  to { opacity: 1; }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

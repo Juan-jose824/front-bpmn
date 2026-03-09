@@ -26,7 +26,6 @@ export class UserRegister implements OnInit {
     this.registerForm = this.initForm();
   }
 
-  // Método para inicializar el formulario de registro
   private initForm() {
     return this.fb.group({
       username: ['', Validators.required],
@@ -37,7 +36,6 @@ export class UserRegister implements OnInit {
     });
   }
 
-  // Método para verificar si el usuario es admin al cargar la página
   ngOnInit(): void {
     const data = this.authService.getCurrentUser() as any;
     const user = data?.user || data;
@@ -50,23 +48,19 @@ export class UserRegister implements OnInit {
     }
   }
 
-  // Método para cargar usuarios registrados
   cargarUsuarios() {
     this.authService.getUsers().subscribe({
-      next: (res) => {
+      next: (res: any[]) => {
         this.registeredUsers = [...res];
         this.cdr.detectChanges(); 
       },
-      error: (err) => console.error('Error al obtener usuarios:', err)
+      error: (err: any) => console.error('Error al obtener usuarios:', err)
     });
   }
   
-  // Método para registrar o actualizar usuario
   onRegister() {
-    // Obtenemos los valores actuales
     const formValues = this.registerForm.getRawValue();
 
-    // Si el admin escribió algo en password, validamos que coincidan antes de seguir
     if (formValues.password || formValues.confirmPassword) {
       if (formValues.password !== formValues.confirmPassword) {
         alert('Las contraseñas no coinciden');
@@ -81,21 +75,20 @@ export class UserRegister implements OnInit {
         role: formValues.role
       };
 
-      // Solo incluimos la contraseña si el admin escribió una nueva
       if (formValues.password && formValues.password.trim() !== '') {
         updateData.password = formValues.password;
       }
       
+      // Cambiamos a usernameOriginal para que el backend lo encuentre
       this.authService.updateUser(this.usernameOriginal, updateData).subscribe({
         next: () => {
           alert('Usuario actualizado correctamente');
           this.cancelarEdicion();
           this.cargarUsuarios();
         },
-        error: (err) => alert('Error al actualizar')
+        error: (err: any) => alert('Error al actualizar') // Tipado :any corregido
       });
     } else {
-      // Lógica de registro (aquí sí es obligatorio todo)
       if (this.registerForm.invalid) {
         alert('Por favor rellene todos los campos correctamente');
         return;
@@ -113,55 +106,56 @@ export class UserRegister implements OnInit {
           alert('Usuario registrado con éxito');
           this.registerForm.reset({ role: 'Usuario'});
           this.cargarUsuarios();
-        }
+        },
+        error: (err: any) => alert('Error al registrar usuario') // Tipado :any corregido
       });
     }
   }
 
-  // Método para editar un usuario existente
   editarUsuario(user: any) {
     this.isEditing = true;
-    this.usernameOriginal = user.user_name;
+    this.usernameOriginal = user.user_name || user.username;
     
-    // 1. Limpiamos validaciones de password para que el formulario sea VÁLIDO aunque estén vacíos
     this.registerForm.get('password')?.clearValidators();
     this.registerForm.get('confirmPassword')?.clearValidators();
     
-    // 2. Cargamos los datos
     this.registerForm.patchValue({
-      username: user.user_name,
+      username: user.user_name || user.username,
       email: user.email,
-      role: user.rol,
+      role: user.rol || user.role,
       password: '', 
       confirmPassword: ''
     });
     
-    // 3. Actualizamos estado
     this.registerForm.get('password')?.updateValueAndValidity();
     this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     this.cdr.detectChanges();
   }
   
-  // Método para cancelar edicion
   cancelarEdicion() {
     this.isEditing = false;
     this.usernameOriginal = '';
     this.registerForm.reset({ role: 'Usuario' });
     
-    // Al cancelar, volvemos a poner los validadores obligatorios para nuevos registros
     this.registerForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
     this.registerForm.get('confirmPassword')?.setValidators([Validators.required]);
     this.registerForm.updateValueAndValidity();
     this.cdr.detectChanges();
   }
 
-  // Método para eliminar usuario
+  // Corregido para evitar el 404 enviando el parámetro correcto
   eliminarUsuario(username: string) {
+    if (!username) return;
+
     if (confirm(`¿Estás seguro de que deseas eliminar al usuario ${username}?`)) {
       this.authService.deleteUser(username).subscribe({
         next: () => {
           alert('Usuario eliminado');
           this.cargarUsuarios();
+        },
+        error: (err: any) => { // Tipado :any corregido
+          console.error(err);
+          alert('No se pudo eliminar al usuario. Verifique la conexión con el servidor.');
         }
       });
     }

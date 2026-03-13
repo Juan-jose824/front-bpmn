@@ -126,6 +126,14 @@ export class AnalysisMain implements OnInit {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a); // Limpiar
   }
+
+  // Nueva función para limpiar la zona de análisis y permitir subir otro archivo
+  limpiarAnalisis() {
+    this.selectedFile = null;
+    this.resultadoBpmn = null;
+    this.isLoading = false;
+    this.cdr.detectChanges(); // Forzar actualización de la vista para mostrar la zona de carga
+  }
   
   // Nueva función para descargar archivos previos del historial
   descargarDesdeHistorial(xml: string, fileName: string) {

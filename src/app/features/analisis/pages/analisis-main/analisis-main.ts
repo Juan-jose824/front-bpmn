@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // Agregado ChangeDetectorRef
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core'; // Agregado ChangeDetectorRef, ViewChild y ElementRef
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/authservice';
@@ -12,6 +12,9 @@ import { AiService } from '../../../../core/services/ai.service';
   styleUrl: './analisis-main.scss',
 })
 export class AnalysisMain implements OnInit {
+
+  // Referencia al input de archivos para poder resetearlo manualmente
+  @ViewChild('fileInput') fileInputVariable!: ElementRef;
 
   //Variables para manejar la sesión, menú, archivo a analizar y el historia
   userName: string = '';
@@ -132,6 +135,12 @@ export class AnalysisMain implements OnInit {
     this.selectedFile = null;
     this.resultadoBpmn = null;
     this.isLoading = false;
+
+    // Resetear el valor del input en el DOM para permitir subir el mismo archivo
+    if (this.fileInputVariable) {
+      this.fileInputVariable.nativeElement.value = '';
+    }
+
     this.cdr.detectChanges(); // Forzar actualización de la vista para mostrar la zona de carga
   }
   

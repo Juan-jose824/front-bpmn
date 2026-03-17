@@ -30,7 +30,7 @@
   }
 }
 
-/* UPLOAD */
+/* UPLOAD ZONE */
 
 .upload-zone {
   border: 2px dashed var(--upload-border);
@@ -62,12 +62,13 @@
   }
 }
 
-/* CONTENEDOR DE ACCIONES (Post-Análisis) */
+/* CONTENEDOR DE ACCIONES (Botones de abajo) */
 
-.action-buttons {
+.action-buttons-container {
   display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha */
   gap: 12px;
-  margin-top: 15px;
+  margin-top: 30px;           /* Los mueve más abajo */
   width: 100%;
 }
 
@@ -91,10 +92,9 @@
 }
 
 .btn-success {
-  flex: 2; /* El botón de descargar ocupa más espacio */
   background-color: #28a745;
   color: white;
-  padding: 12px 20px;
+  padding: 12px 25px;
   border: none;
   border-radius: 10px;
   font-weight: 600;
@@ -107,10 +107,9 @@
 }
 
 .btn-clear {
-  flex: 1; /* El botón de limpiar es más pequeño */
   background-color: #6c757d;
   color: white;
-  padding: 12px 20px;
+  padding: 12px 25px;
   border: none;
   border-radius: 10px;
   font-weight: 600;

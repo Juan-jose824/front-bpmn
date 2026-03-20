@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/authservice';
 
+// Interceptor HTTP para agregar el token JWT a las solicitudes y manejar errores de autenticación
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const auth = inject(AuthService);
@@ -18,6 +19,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
       : {}),
   });
 
+  // Manejo de errores de autenticación: si el token ha expirado, intentar refrescarlo; si el refresh falla o es un error 401, cerrar sesión
   return next(cloned).pipe(
     catchError((err: HttpErrorResponse) => {
       if (err.status === 401) {

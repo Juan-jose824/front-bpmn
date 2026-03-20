@@ -11,12 +11,15 @@ import { AuthService } from '../../../../core/services/authservice';
   templateUrl: './user-register.html',
   styleUrls: ['./user-register.scss'],
 })
+
+// Componente para la gestión de usuarios (registro, edición, eliminación) accesible solo para admin
 export class UserRegister implements OnInit {
   registerForm: FormGroup;
   registeredUsers: any[] = [];
   isEditing = false;
   usernameOriginal = '';
 
+  // Inyección de dependencias para formularios, navegación, autenticación y detección de cambios
   constructor(
     private fb: FormBuilder, 
     private router: Router, 
@@ -26,6 +29,7 @@ export class UserRegister implements OnInit {
     this.registerForm = this.initForm();
   }
 
+  // Inicialización del formulario con validadores
   private initForm() {
     return this.fb.group({
       username: ['', Validators.required],
@@ -36,6 +40,7 @@ export class UserRegister implements OnInit {
     });
   }
 
+  // Verificar que el usuario es admin al cargar la página, si no redirigir a análisis y si es admin cargar la lista de usuarios registrados
   ngOnInit(): void {
     const data = this.authService.getCurrentUser() as any;
     const user = data?.user || data;
@@ -48,6 +53,7 @@ export class UserRegister implements OnInit {
     }
   }
 
+  // Función para cargar la lista de usuarios registrados desde el backend
   cargarUsuarios() {
     this.authService.getUsers().subscribe({
       next: (res: any[]) => {
@@ -58,6 +64,7 @@ export class UserRegister implements OnInit {
     });
   }
   
+  // Función para manejar el registro de nuevos usuarios y la actualización de usuarios existentes
   onRegister() {
     const formValues = this.registerForm.getRawValue();
 
@@ -112,6 +119,7 @@ export class UserRegister implements OnInit {
     }
   }
 
+// Función para manejar la edición de un usuario existente, rellenando el formulario con los datos del usuario seleccionado
   editarUsuario(user: any) {
     this.isEditing = true;
     this.usernameOriginal = user.user_name || user.username;
@@ -132,6 +140,7 @@ export class UserRegister implements OnInit {
     this.cdr.detectChanges();
   }
   
+  // Función para cancelar la edición, limpiando el formulario y restableciendo el estado
   cancelarEdicion() {
     this.isEditing = false;
     this.usernameOriginal = '';
@@ -161,6 +170,7 @@ export class UserRegister implements OnInit {
     }
   }
 
+  // Función para volver a la página de análisis
   goBack() {
     this.router.navigate(['/analisis']);
   }

@@ -7,6 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../core/services/authservice';
 import { IdleService } from '../../core/services/idle.service';
 
+// Componente principal que envuelve toda la aplicación, gestionando la navegación, autenticación, temas y perfil de usuario
 @Component({
   selector: 'app-main-layout',
   standalone: true,
@@ -14,6 +15,8 @@ import { IdleService } from '../../core/services/idle.service';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
 })
+
+// Clase del componente que implementa la lógica de la aplicación
 export class MainLayout implements OnInit, OnDestroy {
   userName: string = '';
   userRole: string = '';
@@ -63,6 +66,7 @@ export class MainLayout implements OnInit, OnDestroy {
     }
   }
 
+  // Detener el servicio de inactividad al destruir el componente
   ngOnDestroy(): void {
     this.idleService.stop();
   }
@@ -168,6 +172,7 @@ export class MainLayout implements OnInit, OnDestroy {
     }, 300);
   }
 
+  // Método para volver a la página de análisis
   @HostListener('document:keydown.escape')
   handleEscape() {
     this.isProfileOpen = false;

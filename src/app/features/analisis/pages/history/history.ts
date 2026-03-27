@@ -22,6 +22,7 @@ export class History implements OnInit {
     this.cargarHistorial();
   }
 
+  // Carga el historial de documentos del usuario
   cargarHistorial() {
     this.authService.getUserHistory().subscribe({
       next: (res) => {
@@ -33,12 +34,25 @@ export class History implements OnInit {
     });
   }
 
+  // Comprueba si todos los documentos visibles están seleccionados
+  get allSelected(): boolean {
+    return this.documents.length > 0 && this.documents.every(doc => doc.selected);
+  }
+
+  // Selecciona o deselecciona todos los archivos de golpe
+  toggleSelectAll(event: any) {
+    const isChecked = event.target.checked;
+    this.documents.forEach(doc => doc.selected = isChecked);
+    this.cdr.detectChanges();
+  }
+
+  // Cuenta cuantos documentos están seleccionados
   getSelectedCount(): number {
     return this.documents.filter(doc => doc.selected).length;
   }
 
   // history.ts
-eliminarSeleccionados() {
+  eliminarSeleccionados() {
     const seleccionados = this.documents.filter(doc => doc.selected);
     
     // CAMBIO CLAVE: Usa id_analysis (así viene de tu tabla ai_analysis)
@@ -58,8 +72,9 @@ eliminarSeleccionados() {
             }
         });
     }
-}
+  }
 
+  // Descargar un archivo BPMN desde el historial
   descargarDesdeHistorial(xml: string, fileName: string) {
     const blob = new Blob([xml], { type: 'application/xml' });
     const url = window.URL.createObjectURL(blob);
